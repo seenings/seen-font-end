@@ -1,0 +1,8 @@
+### 增加
+GET http://localhost:9103/seen/coin/coin/coin-book/add?amount=100&debitId=&creditId=&transactionTime  HTTP/1.1
+
+###
+POST http://localhost:9103/seen/feign-v1/account/coin-account/user-id-to-account-id?accountType=SYS_RECHARGE
+Content-Type: application/json
+
+[]
