@@ -1,11 +1,11 @@
 {
-  "name": "hello-seen",
-  "version": "0.1.49",
+  "name": "seen-font-end",
+  "version": "0.1.50",
   "type": "module",
   "private": true,
   "author": {
     "name": "songchi tech ltd.",
-    "url": "https://seenings.github.io/hello-seen/"
+    "url": "https://seenings.github.io/seen-font-end/"
   },
   "scripts": {
     "dev": "vite",
