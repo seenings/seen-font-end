@@ -158,7 +158,7 @@ for (const routeMapKey of routeMap.keys()) {
   }
 }
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("/seen-font-end"),
   routes: routes,
 });
 
