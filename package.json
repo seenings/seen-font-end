@@ -1,6 +1,6 @@
 {
   "name": "seen-font-end",
-  "version": "0.1.51",
+  "version": "0.1.52",
   "type": "module",
   "private": true,
   "author": {
@@ -35,6 +35,6 @@
     "vue": "^3.5.13",
     "vue-router": "^4.4.5",
     "vue-timer-hook": "^1.0.82",
-    "vue-tsc": "^2.2.4"
+    "vue-tsc": "^2.2.6"
   }
 }
