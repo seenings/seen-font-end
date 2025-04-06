@@ -890,4 +890,3 @@ onMounted(() => {
 </script>
 
 <style scoped></style>
-../../../service/cosumer/photo/photo-service
