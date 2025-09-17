@@ -114,27 +114,23 @@
   </van-row>
 </template>
 <script lang="ts" setup>
-import {
-  Cell as VanCell,
-  CellGroup as VanCellGroup,
-  showImagePreview,
-  showToast,
-} from "vant";
+import type {ShareSheetOption} from "vant";
+import {Cell as VanCell, CellGroup as VanCellGroup, showImagePreview, showToast,} from "vant";
 import {onMounted, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import MainPageBottom from "../../../components/MainPageBottom.vue";
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
 import {PathEnum, SeenRouterUtils} from "../../../router";
 
-import {AxiosResponse} from "axios";
-import type {ShareSheetOption} from "vant";
+import type {AxiosResponse} from "axios";
 import {envService} from "../../../config/sys/env";
 import {API_BASIC_INFO} from "../../../http/basic-info-service-api";
 import seenAxios from "../../../http/seen-axios";
-import {PhotoContent} from "../../../model/consumer/photo/file";
+import type {PhotoContent} from "../../../model/consumer/photo/file";
 import {Sex} from "../../../model/consumer/user-info/Sex";
-import {UserInfo} from "../../../model/consumer/user-info/UserInfo";
-import {R, StatusCode} from "../../../model/sys/api-result";
+import type {UserInfo} from "../../../model/consumer/user-info/UserInfo";
+import type {R,} from "../../../model/sys/api-result";
+import {StatusCode} from "../../../model/sys/api-result";
 import photoService from "../../../service/cosumer/photo/photo-service";
 import loginService from "../../../service/cosumer/sys/login";
 import PhotoUtil from "../../../util/consumer/photo/photo-util";
@@ -146,7 +142,7 @@ const router = useRouter();
  */
 const logout = () => {
   envService.removeClientToken();
-  loginService.clearLoginSession().then((res: boolean) => {
+  loginService.clearLoginSession().then(() => {
     SeenRouterUtils.toPage(router, PathEnum.Login, {});
   });
 };
@@ -160,7 +156,7 @@ const onClickEditInfo = () => {
   SeenRouterUtils.toPage(router, PathEnum.EditBasicInformation, {});
 };
 const photoIdToPhotoContentMap = ref<Record<number, PhotoContent>>({});
-watch(userInfo, (newVal, oldVal) => {
+watch(userInfo, (newVal) => {
   if (newVal.mainPhotoId) {
     let photoId = userInfo.value.mainPhotoId;
     photoService.photoIdToResourcesByCompress(photoId).then((res) => {
@@ -184,7 +180,7 @@ const loadUserInfo = () => {
   seenAxios<R<UserInfo>>({
     ...API_BASIC_INFO.selfUserInfo,
   }).then((res: AxiosResponse<R<UserInfo>>) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code) === StatusCode.SUCCESS) {
       userInfo.value = res.data.data;
     }
   });

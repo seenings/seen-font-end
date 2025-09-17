@@ -1,6 +1,6 @@
 <template>
-  <seen-blank-row title="顶部空白" />
-  <seen-go-back />
+  <seen-blank-row title="顶部空白"/>
+  <seen-go-back/>
   <van-row>
     <van-col span="2" style="opacity: 0">空白列</van-col>
     <van-col span="20">头像照片</van-col>
@@ -8,8 +8,8 @@
   </van-row>
   <van-row title="头像照片">
     <seen-photo-upload
-      v-model:photo-ids="firstImageIds"
-      :dis-operate="!haveFirstPhotoId"
+        v-model:photo-ids="firstImageIds"
+        :dis-operate="!haveFirstPhotoId"
     />
   </van-row>
   <van-row>
@@ -19,35 +19,37 @@
   </van-row>
   <van-row title="主页照片">
     <seen-photo-upload
-      v-model:photo-ids="secondImageIds"
-      :max="9"
-      :dis-operate="!haveSecondPhotoId"
+        v-model:photo-ids="secondImageIds"
+        :max="9"
+        :dis-operate="!haveSecondPhotoId"
     />
   </van-row>
   <van-row title="保存照片">
     <van-col span="24">
       <van-button round type="primary" @click="onClickSavePhotoOk"
-        >保存
+      >保存
       </van-button>
     </van-col>
   </van-row>
-  <seen-blank-row title="底部空白" />
+  <seen-blank-row title="底部空白"/>
 </template>
 
 <script lang="ts" setup>
-import { AxiosResponse } from "axios";
-import { showToast } from "vant";
-import { ComputedRef, Ref, computed, onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import type {AxiosResponse} from "axios";
+import {showToast} from "vant";
+import type {ComputedRef, Ref} from "vue";
+import {computed, onMounted, ref} from "vue";
+import {useRouter} from "vue-router";
 
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
 import SeenGoBack from "../../../components/SeenGoBack.vue";
 import SeenPhotoUpload from "../../../components/consumer/photo/SeenPhotoUpload.vue";
-import { API_BASIC_INFO } from "../../../http/basic-info-service-api";
+import {API_BASIC_INFO} from "../../../http/basic-info-service-api";
 import seenAxios from "../../../http/seen-axios";
-import { OrderAndPhotoId } from "../../../model/consumer/introduce/introduce-photo-model";
-import { IntroduceTypeEnum } from "../../../model/consumer/photo/IntroduceTypeAndPhoto";
-import { R, StatusCode } from "../../../model/sys/api-result";
+import type {OrderAndPhotoId} from "../../../model/consumer/introduce/introduce-photo-model";
+import {IntroduceTypeEnum} from "../../../model/consumer/photo/IntroduceTypeAndPhoto";
+import type {R} from "../../../model/sys/api-result";
+import {StatusCode} from "../../../model/sys/api-result";
 import PhotoUtil from "../../../util/consumer/photo/photo-util";
 //上传主页照片
 const onClickSavePhotoOk = () => {
@@ -60,13 +62,13 @@ const save = () => {
   }
   let firstImageId = firstImageIds.value[0];
   const orderAndPhotoIds: OrderAndPhotoId[] = secondImageIds.value
-    .filter((value) => value !== 0)
-    .map((value, index) => {
-      return {
-        photoId: value,
-        order: index + 1,
-      };
-    });
+      .filter((value) => value !== 0)
+      .map((value, index) => {
+        return {
+          photoId: value,
+          order: index + 1,
+        };
+      });
   const config = {
     ...API_BASIC_INFO.savePrimaryPhoto,
     data: orderAndPhotoIds,
@@ -78,7 +80,7 @@ const save = () => {
   };
   seenAxios<boolean>(config).then((res: AxiosResponse<boolean>) => {
     if (res.data) {
-      showToast({ type: "success", message: "保存图片成功" });
+      showToast({type: "success", message: "保存图片成功"});
       goBack();
     }
   });
@@ -98,14 +100,14 @@ const secondImageIds: ComputedRef<number[]> = computed(() => {
   }
 });
 const secondOrderToPhotoId: Ref<Record<number, number> | undefined> =
-  ref<Record<number, number>>();
+    ref<Record<number, number>>();
 const selfUserIdToMainPhoto = () => {
   const config = {
     ...API_BASIC_INFO.selfUserIdToMainPhoto,
   };
   seenAxios<R<{ longPhotoUrl: string; id: number }>>(config).then((res) => {
     haveFirstPhotoId.value = false;
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code) === StatusCode.SUCCESS) {
       if (res.data && res.data.data.longPhotoUrl != null) {
         firstImageIds.value = [res.data.data.id];
         haveFirstPhotoId.value = true;
@@ -118,7 +120,7 @@ const selfUserIdToSecondPhoto = () => {
   return seenAxios<R<Record<number, number>>>({
     ...API_BASIC_INFO.selfUserIdToMainPagePhoto,
   }).then((res) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code) === StatusCode.SUCCESS) {
       secondOrderToPhotoId.value = res.data.data;
       haveSecondPhotoId.value = true;
     }

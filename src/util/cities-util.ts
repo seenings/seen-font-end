@@ -1,4 +1,4 @@
-import { CascaderString } from "../model/sys/option";
+import type { CascaderString } from "../model/sys/option";
 
  
 export class CitiesUtils {

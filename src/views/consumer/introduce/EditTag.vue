@@ -133,7 +133,7 @@ const saveTag = () => {
     data: tagIds.value,
   };
   AJAX.request<boolean>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       showToast({ type: "success", message: "保存标签成功" });
       goBack();
     }
@@ -145,7 +145,7 @@ const toParentIdToParentName = () => {
     ...API_PUBLIC.toParentIdToParentName,
   };
   AJAX.request<Record<number, string>>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       parentIdToParentName.value = res.data;
     }
   });
@@ -159,7 +159,7 @@ const toParentIdToTagId = () => {
     ...API_PUBLIC.toParentIdToTagId,
   };
   AJAX.request<Record<number, number[]>>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       parentIdToTagId.value = res.data;
     }
   });
@@ -169,7 +169,7 @@ const toTagIdToTagName = () => {
     ...API_PUBLIC.toTagIdToTagName,
   };
   AJAX.request<Record<number, string>>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       tagIdToTagName.value = res.data;
     }
   });
@@ -180,7 +180,7 @@ const selfUserIdToTagId = () => {
     ...API_BASIC_INFO.selfUserIdToTagId,
   };
   AJAX.request<number[]>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       if (res.data != null) {
         tagIds.value = res.data;
       }

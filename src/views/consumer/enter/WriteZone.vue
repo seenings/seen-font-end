@@ -72,7 +72,7 @@ const afterRead = (items: UploaderFileListItem | UploaderFileListItem[]) => {
     data: form,
   };
   AJAX.request<number>(config).then((res) => {
-    if (res.code as StatusCode) {
+    if (res.code ) {
       imageFileIds.push(res.data);
       file.status = "done";
       file.message = "上传完成";
@@ -104,7 +104,7 @@ const publish = () => {
     data: data,
   };
   AJAX.request<number>(config).then((res) => {
-    if (res.code as StatusCode) {
+    if (res.code ) {
       showNotify({message: res.msg, type: "success"});
     } else {
       showNotify({message: res.msg, type: "danger"});

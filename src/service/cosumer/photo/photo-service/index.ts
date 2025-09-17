@@ -1,8 +1,8 @@
-import {AxiosResponse} from "axios";
+import type {AxiosResponse} from "axios";
 import {showNotify} from "vant";
 import {API_PHOTO} from "../../../../http/photo-service-api";
 import seenAxios from "../../../../http/seen-axios";
-import {PhotoContent} from "../../../../model/consumer/photo/file";
+import type {PhotoContent} from "../../../../model/consumer/photo/file";
 import {photoFileCacheService} from "../../../../store/consumer/photo/photo-file-cache-service";
 import {StringUtil} from "../../../../util/string-util";
 import {envService} from "../../../../config/sys/env";

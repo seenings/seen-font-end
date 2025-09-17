@@ -1,6 +1,6 @@
 {
   "name": "seen-font-end",
-  "version": "0.1.57",
+  "version": "0.1.61",
   "type": "module",
   "private": true,
   "author": {
@@ -9,32 +9,34 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "update-check": "npm-check -u"
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^22.13.14",
+    "@types/node": "^24.5.0",
     "@vant/use": "^1.5.2",
-    "@vitejs/plugin-vue": "^5.2.3",
-    "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue-jsx": "^5.1.1",
     "@vue/test-utils": "^2.4.6",
-    "@vue/tsconfig": "^0.7.0",
+    "@vue/tsconfig": "^0.8.1",
     "axios": "^1.8.4",
     "dayjs": "^1.11.13",
     "estraverse": "^5.3.0",
-    "jsdom": "^26.0.0",
+    "jsdom": "^27.0.0",
+    "npm-check": "^6.0.1",
     "npm-run-all": "^4.1.5",
     "pinia": "^3.0.1",
     "rxjs": "^7.8.2",
     "start-server-and-test": "^2.0.11",
     "typescript": "^5.8.2",
     "vant": "^4.9.18",
-    "vite": "^6.2.3",
+    "vite": "^7.1.5",
     "vitest": "^3.0.9",
-    "vue": "^3.5.13",
+    "vue": "^3.5.21",
     "vue-router": "^4.4.5",
     "vue-timer-hook": "^1.0.82",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^3.0.7"
   }
 }

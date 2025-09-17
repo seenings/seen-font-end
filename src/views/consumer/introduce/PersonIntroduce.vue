@@ -471,12 +471,13 @@ import {API_FRIEND} from "../../../http/friend-service-api";
 import {API_INTERACT_USER} from "../../../http/interact-user-service-api";
 import {API_LOGIN} from "../../../http/login-service-api";
 import seenAxios from "../../../http/seen-axios";
-import {PhotoContent} from "../../../model/consumer/photo/file";
+import type{PhotoContent} from "../../../model/consumer/photo/file";
 import {Education} from "../../../model/consumer/school/Education";
-import {UserIntroduceInfo} from "../../../model/consumer/user-info/BasicInfo";
-import {PersonIntroduce} from "../../../model/consumer/user-info/UserInfo";
-import {R, StatusCode} from "../../../model/sys/api-result";
-import {PathEnum, SeenRouterUtils, router} from "../../../router";
+import type{UserIntroduceInfo} from "../../../model/consumer/user-info/BasicInfo";
+import type{PersonIntroduce} from "../../../model/consumer/user-info/UserInfo";
+import type{R} from "../../../model/sys/api-result";
+import {StatusCode} from "../../../model/sys/api-result";
+import {PathEnum, router, SeenRouterUtils} from "../../../router";
 import photoService from "../../../service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../util/consumer/photo/photo-util";
 import {SchoolUtils} from "../../../util/consumer/school/school-util";
@@ -498,9 +499,9 @@ const checkSelf = () => {
       pageUserId: pageUserId,
     },
   };
-  AJAX.request<boolean>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
-      selfEdit.value = res.data;
+  seenAxios<R<boolean>>(config).then((res) => {
+    if ((res.data.code ) === StatusCode.SUCCESS) {
+      selfEdit.value = res.data.data;
     }
   });
 };
@@ -511,14 +512,17 @@ const onClickIntroduceEdit = (introduceTypeId: number) => {
   });
 };
 const primaryPhotoUrls = computed(() => {
-  let imageUrls = PhotoUtil.toImageUrlsByPhotoId(
+  return PhotoUtil.toImageUrlsByPhotoId(
       photoIdToPhotoContentMap.value,
       primayPhotoIds.value
   );
-  return imageUrls;
 });
 const imagePreviewByPrimary = (startPosition: number) => {
   let photoId = primayPhotoIds.value[startPosition];
+  if(photoId===undefined||photoIdToPhotoContentMap.value[photoId]===undefined){
+    console.error("照片ID不存在");
+    return;
+  }
   if (photoIdToPhotoContentMap.value[photoId].imageUrl !== "") {
     showImagePreview({
       images: primaryPhotoUrls.value,
@@ -577,7 +581,7 @@ const checkEnough = () => {
     ...API_COIN.checkEnough,
   };
   AJAX.request<boolean>(config).then((res) => {
-    if ((res.code as StatusCode.SUCCESS) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       showCoinEnough.value = res.data;
       showCoinNotEnough.value = !res.data;
     }
@@ -593,12 +597,12 @@ const applyFriend = () => {
       appliedUserId: pageUserId,
     },
   };
-  AJAX.request<boolean>(config).then((res) => {
-    if ((res.code as StatusCode.SUCCESS) === StatusCode.SUCCESS) {
-      if (res.data) {
+  seenAxios<R<boolean>>(config).then((res) => {
+    if ((res.data.code) === StatusCode.SUCCESS) {
+      if (res.data.data) {
         showNotify({type: "success", message: "发送消息成功"});
       } else {
-        showNotify({type: "warning", message: res.msg});
+        showNotify({type: "warning", message: res.data.msg});
       }
       showCoinEnough.value = false;
     }
@@ -662,7 +666,7 @@ const authInfo = ref<AuthInfo>({
 const personIntroduceData = ref<PersonIntroduce[]>([]);
 const photoIdToPhotoContentMap = ref<Record<number, PhotoContent>>({});
 const primayPhotoIds = ref<number[]>([]);
-watch(primayPhotoIds, (newVal, oldVal) => {
+watch(primayPhotoIds, (newVal) => {
   let photoIds = [
     ...new Set(
         newVal?.map((v) => {
@@ -704,8 +708,12 @@ const focusUser = () => {
     ...API_INTERACT_USER.focusUser,
     data: [pageUserId],
   };
-  AJAX.request<Record<number, boolean>>(config).then((res) => {
-    focus.value = res.data[pageUserId];
+  seenAxios<R<Record<number, boolean>>>(config).then((res) => {
+    if(res.data.data[pageUserId]===undefined){
+      console.error(`用户信息不存在，用户ID${pageUserId}`)
+      return;
+    }
+    focus.value = res.data.data[pageUserId];
   });
 };
 const thumbUser = () => {
@@ -713,8 +721,12 @@ const thumbUser = () => {
     ...API_INTERACT_USER.thumbUser,
     data: [pageUserId],
   };
-  AJAX.request<Record<number, boolean>>(config).then((res) => {
-    thumb.value = res.data[pageUserId];
+  seenAxios<R<Record<number, boolean>>>(config).then((res) => {
+    if(res.data.data[pageUserId]===undefined){
+      console.error(`用户信息不存在，用户ID${pageUserId}`)
+      return;
+    }
+    thumb.value = res.data.data[pageUserId];
   });
 };
 const userIdToPersonIntroduce = () => {
@@ -722,8 +734,12 @@ const userIdToPersonIntroduce = () => {
     ...API_BASIC_INFO.userIdToPersonIntroduce,
     data: [pageUserId],
   };
-  AJAX.request<Record<number, PersonIntroduce[]>>(config).then((res) => {
-    personIntroduceData.value = res.data[pageUserId];
+  seenAxios<R<Record<number, PersonIntroduce[]>>>(config).then((res) => {
+    if(res.data.data[pageUserId]===undefined){
+      console.error(`用户信息不存在，用户ID${pageUserId}`)
+      return;
+    }
+    personIntroduceData.value = res.data.data[pageUserId];
   });
 };
 const userIdToTagName = () => {
@@ -731,8 +747,12 @@ const userIdToTagName = () => {
     ...API_BASIC_INFO.userIdToTagName,
     data: [pageUserId],
   };
-  AJAX.request<Record<number, string[]>>(config).then((res) => {
-    tagNames.value = res.data[pageUserId];
+  seenAxios<R<Record<number, string[]>>>(config).then((res) => {
+    if(res.data.data[pageUserId]===undefined){
+      console.error(`用户信息不存在，用户ID${pageUserId}`)
+      return;
+    }
+    tagNames.value = res.data.data[pageUserId];
   });
 };
 const thumb = ref<boolean>(false);
@@ -741,8 +761,12 @@ const destUserIdToThumb = () => {
     ...API_BASIC_INFO.destUserIdToThumb,
     data: [pageUserId],
   };
-  AJAX.request<Record<number, boolean>>(config).then((res) => {
-    thumb.value = res.data[pageUserId];
+  seenAxios<R<Record<number, boolean>>>(config).then((res) => {
+    if(res.data.data[pageUserId]===undefined){
+      console.error(`用户信息不存在，用户ID${pageUserId}`)
+      return;
+    }
+    thumb.value = res.data.data[pageUserId];
   });
 };
 const focus = ref<boolean>(false);
@@ -751,8 +775,12 @@ const destUserIdToFocus = () => {
     ...API_BASIC_INFO.destUserIdToFocus,
     data: [pageUserId],
   };
-  AJAX.request<Record<number, boolean>>(config).then((res) => {
-    focus.value = res.data[pageUserId];
+  seenAxios<R<Record<number, boolean>>>(config).then((res) => {
+    if(res.data.data[pageUserId]===undefined){
+      console.error(`用户信息不存在，用户ID${pageUserId}`)
+      return;
+    }
+    focus.value = res.data.data[pageUserId];
     loading.value = false;
   });
 };
@@ -820,8 +848,12 @@ const userIdToUserIntroduceInfo = () => {
     ...API_BASIC_INFO.userIdToUserIntroduceInfo,
     data: [pageUserId],
   };
-  AJAX.request<Record<number, UserIntroduceInfo>>(config).then((res) => {
-    userIntroduceInfo.value = res.data[pageUserId];
+  seenAxios<R<Record<number, UserIntroduceInfo>>>(config).then((res) => {
+    if(res.data.data[pageUserId]===undefined){
+      console.error(`用户信息不存在，用户ID${pageUserId}`)
+      return;
+    }
+    userIntroduceInfo.value = res.data.data[pageUserId];
   });
 };
 const onClickDoTask = () => {
@@ -842,14 +874,14 @@ const loading = ref(true);
 
 watch(
     () => personIntroduceData.value,
-    (newVal, oldVal) => {
+    (newVal) => {
       if (newVal) {
         let allIds = newVal
             .map((value) => {
               let keys: number[] = Object.keys(value.orderToPhotoIdMap).map(
                   (value) => Number(value)
               );
-              let photoIds: number[] = keys.map((v) => {
+              let photoIds: (number | undefined)[] = keys.map((v) => {
                 return value.orderToPhotoIdMap[v];
               });
               return photoIds;
@@ -858,6 +890,10 @@ watch(
               return value;
             });
         allIds.forEach((photoId) => {
+          if (photoId === undefined) {
+            console.error("找不到照片ID")
+            return;
+          }
           photoService.photoIdToResourcesByCompress(photoId).then((res) => {
             if (!photoIdToPhotoContentMap.value[photoId] ||
                 photoIdToPhotoContentMap.value[photoId].imageUrl === "") {

@@ -2,12 +2,12 @@
 import {showImagePreview, showNotify} from "vant";
 import {computed, reactive, ref, watch} from "vue";
 
-import {AxiosProgressEvent, AxiosResponse} from "axios";
+import type {AxiosProgressEvent, AxiosResponse} from "axios";
 import {API_PHOTO} from "../../../http/photo-service-api";
 import seenAxios from "../../../http/seen-axios";
-import {PhotoContent} from "../../../model/consumer/photo/file";
-import {R, StatusCode} from "../../../model/sys/api-result";
-import {StringUtil} from "../../../util/string-util";
+import type {PhotoContent} from "../../../model/consumer/photo/file";
+import type {R} from "../../../model/sys/api-result";
+import {StatusCode} from "../../../model/sys/api-result";
 import photoService from "../../../service/cosumer/photo/photo-service";
 
 interface Props {
@@ -99,7 +99,7 @@ const uploadPhoto = (e: Event) => {
       },
     })
         .then((res: AxiosResponse<R<number>>) => {
-          if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+          if ((res.data.code ) === StatusCode.SUCCESS) {
             photoIdRef.value = res.data.data;
             photoContent.status = "上传成功";
           } else {
@@ -144,7 +144,7 @@ const reUploadPhoto = () => {
     },
   })
       .then((res: AxiosResponse<R<number>>) => {
-        if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+        if ((res.data.code) === StatusCode.SUCCESS) {
           photoIdRef.value = res.data.data;
           photoContent.status = "上传成功";
         } else {

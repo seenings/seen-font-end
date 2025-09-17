@@ -1,21 +1,22 @@
-export interface R<T> {
-  /**
-   * 状态码
-   */
-  code: number;
-  /**
-   * 消息
-   */
-  msg: string;
-  /**
-   * 数据
-   */
-  data: T;
+export const StatusCode = {
+    ERROR: 0,
+    SUCCESS: 1
 }
 
-export enum StatusCode {
-  ERROR,
-  SUCCESS,
+export interface R<T> {
+    /**
+     * 状态码
+     */
+    code: 0 | 1;
+    /**
+     * 消息
+     */
+    msg: string;
+    /**
+     * 数据
+     */
+    data: T;
 }
+
 
 export type ResultErrorType = "error" | "warning" | "none";
