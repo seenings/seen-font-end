@@ -15,7 +15,7 @@
                 :key="index"
                 :style="{ height: height / 12 }"
             >
-              <van-col span="5" v-if="userChatInfo!=null">
+              <van-col v-if="userChatInfo!=null" span="5">
                 <van-image
                     :alt="'照片' + userChatInfo.mainPhotoId"
                     :height="(width / 24) * 4"
@@ -38,7 +38,7 @@
                   "
                 />
               </van-col>
-              <van-col span="14" @click="openChatWindow(userChatInfo.userId)" v-if="userChatInfo!=null">
+              <van-col v-if="userChatInfo!=null" span="14" @click="openChatWindow(userChatInfo.userId)">
                 <van-row>
                   <van-col class="seen-left" span="24"
                   >{{ userChatInfo.aliasName }}
@@ -50,7 +50,7 @@
                   </van-col>
                 </van-row>
               </van-col>
-              <van-col span="5" v-if="userChatInfo!=null">
+              <van-col v-if="userChatInfo!=null" span="5">
                 <van-row>
                   <van-col class="seen-info-color seen-font-smaller" span="24">
                     {{ DateUtil.fromNowByMinute(userChatInfo.newestChatTime) }}
@@ -202,14 +202,16 @@ import {AJAX, ENV} from "../../../config";
 import {API_CHAT} from "../../../http/chat-service-api";
 import seenAxios from "../../../http/seen-axios";
 import {ApplyStatus} from "../../../model/consumer/friend/ApplyStatus";
-import {PhotoContent} from "../../../model/consumer/photo/file";
-import {UserChatInfo} from "../../../model/consumer/user-info/UserInfo";
-import {R, StatusCode} from "../../../model/sys/api-result";
+import type {PhotoContent} from "../../../model/consumer/photo/file";
+import type {UserChatInfo} from "../../../model/consumer/user-info/UserInfo";
+import type {R} from "../../../model/sys/api-result";
+import {StatusCode} from "../../../model/sys/api-result";
 import {PathEnum, SeenRouterUtils} from "../../../router";
 import photoService from "../../../service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../util/consumer/photo/photo-util";
 import {DateUtil} from "../../../util/date-util";
 import {UrlUtils} from "../../../util/url-util";
+import {envService} from "../../../config/sys/env";
 
 const bottomActiveName = ref<string>("聊天");
 const applyActiveName = ref<string>("收到的");
@@ -254,10 +256,10 @@ interface SendInfo {
 const router = useRouter();
 const userChatInfos = ref<UserChatInfo[]>();
 const photoIdToPhotoContentMap = ref<Record<number, PhotoContent>>({});
-watch(userChatInfos, (newVal, oldVal) => {
+watch(userChatInfos, (newVal) => {
   let photoIds = [
     ...new Set(
-        newVal?.filter(v=>v!=null).map((v) => {
+        newVal?.filter(v => v != null).map((v) => {
           return v.mainPhotoId;
         })
     ),
@@ -291,7 +293,7 @@ const loadChatList = () => {
       size: 10,
     },
   }).then((res) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code) === StatusCode.SUCCESS) {
       userChatInfos.value = res.data.data;
     }
   });
@@ -331,9 +333,9 @@ const selfUserIdToRecInfo = () => {
     },
   };
   AJAX.request<RecInfo[]>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code) === StatusCode.SUCCESS) {
       recInfos.value = res.data.map((n) => {
-        n.mainPhotoUrl = UrlUtils.relationUrlToFullPathUrl(ENV, n.mainPhotoUrl);
+        n.mainPhotoUrl = UrlUtils.relationUrlToFullPathUrl(envService, n.mainPhotoUrl);
         return n;
       });
     }
@@ -348,7 +350,7 @@ const selfUserIdToSendInfo = () => {
     },
   };
   AJAX.request<SendInfo[]>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code) === StatusCode.SUCCESS) {
       sendInfos.value = res.data.map((n) => {
         n.mainPhotoUrl = UrlUtils.relationUrlToFullPathUrl(ENV, n.mainPhotoUrl);
         return n;

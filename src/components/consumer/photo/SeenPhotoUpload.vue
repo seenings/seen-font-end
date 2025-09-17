@@ -148,7 +148,7 @@ const uploadPhoto = (index: number, file: File): Promise<PhotoContent> => {
       }
     },
   }).then((res: AxiosResponse<R<number>>) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code ) === StatusCode.SUCCESS) {
       photoIdsRef.value[index] = res.data.data;
       photoContent.status = "上传成功";
     } else {

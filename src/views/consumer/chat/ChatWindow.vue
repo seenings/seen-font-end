@@ -279,7 +279,7 @@ const uploadPhoto = (file: File): Promise<number> => {
     ...API_PHOTO.uploadPhoto,
     data: formData,
   }).then((res) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code ) === StatusCode.SUCCESS) {
       return res.data.data;
     } else {
       throw new Error("照片上传失败");
@@ -418,7 +418,7 @@ const uploadVoice = (file: File): Promise<number> => {
     ...API_VOICE.uploadVoice,
     data: formData,
   }).then((res) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code ) === StatusCode.SUCCESS) {
       let contentId = res.data.data;
       currentVoice.id = contentId;
       return contentId;
@@ -435,7 +435,7 @@ const voiceIdToVoice = (
     data: voiceIds,
   };
   return seenAxios<R<Record<number, string>>>(config).then((res) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code ) === StatusCode.SUCCESS) {
       return res.data.data;
     } else {
       throw new Error("获取录音文件失败");
@@ -450,7 +450,7 @@ const textIdToChatText = (
     data: textIds,
   };
   return seenAxios<R<Record<number, string>>>(config).then((res) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code ) === StatusCode.SUCCESS) {
       return res.data.data;
     } else {
       throw new Error(res.data.msg);

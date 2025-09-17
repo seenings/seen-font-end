@@ -1,4 +1,4 @@
-import vue from "@vitejs/plugin-vue";
+import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import {resolve} from "path";
 import {defineConfig} from "vite";
@@ -22,12 +22,11 @@ export default defineConfig({
         vueJsx(),
     ],
     server: {
-        host: "0.0.0.0",
         port: 8101,
         proxy: {
             "/seen": {
-                target: "http://localhost:80",
+                target: "http://[::1]:80",
             },
-        },
+        }
     },
 });

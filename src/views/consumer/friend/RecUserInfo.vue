@@ -205,7 +205,7 @@ const agree = () => {
     },
   };
   AJAX.request<boolean>(config).then((res) => {
-    if ((res.code as StatusCode.SUCCESS) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       if (res.data) {
         applyIdToRecApplyContent();
       } else {
@@ -262,7 +262,7 @@ const applyIdToRecApplyContent = () => {
     data: [applyId],
   };
   AJAX.request<Record<number, RecApplyContent>>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       recApplyContent.value = res.data[applyId];
       if (!recApplyContent.value.lookTime) {
         look();

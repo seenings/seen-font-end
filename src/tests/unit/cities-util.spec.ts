@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CascaderString } from "../../model/sys/option";
+import type{ CascaderString } from "../../model/sys/option";
 import { CitiesUtils } from "../../util/cities-util";
 
 describe("cities-util.ts", () => {

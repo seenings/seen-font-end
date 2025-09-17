@@ -42,7 +42,7 @@ const uploadFile = (e: Event) => {
         },
       })
         .then((res: AxiosResponse<R<number>>) => {
-          if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+          if ((res.data.code ) === StatusCode.SUCCESS) {
             photoContent.status = "上传成功";
             fileIndexToFileId.value[i] = photoContent;
           } else {

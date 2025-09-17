@@ -106,7 +106,7 @@ const save = () => {
     },
   };
   AJAX.request<boolean>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       goBack();
     }
   });
@@ -123,7 +123,7 @@ const introduceTypeIndexToPersonIntroduce = () => {
     data: [introduceTypeIndex],
   };
   AJAX.request<Record<number, PersonIntroduce>>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       personIntroduce.value = res.data[introduceTypeIndex];
       content.value = personIntroduce.value.introduceContent;
     }

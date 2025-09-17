@@ -1,8 +1,5 @@
-import axios, {
-    AxiosInstance,
-    AxiosResponse,
-    InternalAxiosRequestConfig,
-} from "axios";
+import type {AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import axios from "axios";
 import {showNotify} from "vant";
 import {envService} from "../config/sys/env";
 

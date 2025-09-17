@@ -259,7 +259,7 @@ const applyIdToSendApplyContent = () => {
     data: [applyId],
   };
   AJAX.request<Record<number, SendApplyContent>>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       applyContent.value = res.data[applyId];
     }
   });

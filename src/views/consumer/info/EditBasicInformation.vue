@@ -601,7 +601,7 @@ import {
     UserUtils,
 } from "../../../model/consumer/user-info/Sex";
 import { StatusCode } from "../../../model/sys/api-result";
-import { CascaderString } from "../../../model/sys/option";
+import type{ CascaderString } from "../../../model/sys/option";
 import { CitiesUtils } from "../../../util/cities-util";
 import { SchoolUtils } from "../../../util/consumer/school/school-util";
 import { DateUtil } from "../../../util/date-util";
@@ -905,7 +905,7 @@ const dictWorkPosition = () => {
     ...API_DICT.dictWorkPosition,
   };
   AJAX.request<Record<number, string>>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       columns.workPosition = RecordUtils.recordToPickerOption(res.data);
     }
   });
@@ -915,7 +915,7 @@ const dictYearIncome = () => {
     ...API_DICT.dictYearIncome,
   };
   AJAX.request<Record<number, string>>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       columns.yearIncome = RecordUtils.recordToPickerOption(res.data);
     }
   });
@@ -925,7 +925,7 @@ const toProvinceAndCity = () => {
     ...API_PUBLIC.toProvinceAndCity,
   };
   AJAX.request<CascaderString[]>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       cascaderColumns.cities = res.data;
     }
   });
@@ -935,7 +935,7 @@ const toProvinceAndSchool = () => {
     ...API_PUBLIC.toProvinceAndSchool,
   };
   AJAX.request<CascaderString[]>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       cascaderColumns.schools = res.data;
     }
   });
@@ -945,7 +945,7 @@ const selfUserIdToContactInformation = () => {
     ...API_BASIC_INFO.selfUserIdToContactInformation,
   };
   AJAX.request<ContactInformation>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       contactInformation.value = { ...res.data };
     }
   });
@@ -955,7 +955,7 @@ const selfUserIdToEducationAndWork = () => {
     ...API_BASIC_INFO.selfUserIdToEducationAndWork,
   };
   AJAX.request<EducationAndWork>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       educationAndWork.value = { ...res.data };
     }
   });
@@ -965,7 +965,7 @@ const selfUserIdToBasicInformation = () => {
     ...API_BASIC_INFO.selfUserIdToBasicInformation,
   };
   AJAX.request<BasicInformation>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       basicInformation.value = { ...res.data };
     }
   });
@@ -980,7 +980,7 @@ const save = () => {
     },
   };
   AJAX.request<boolean>(config).then((res) => {
-    if ((res.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.code ) === StatusCode.SUCCESS) {
       showToast({
         type: "success",
         message: "修改基本信息成功",

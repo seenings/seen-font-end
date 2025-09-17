@@ -115,7 +115,7 @@ const login = () => {
       smsId: data.value.smsId,
     },
   }).then((res: AxiosResponse<R<number>>) => {
-    if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+    if ((res.data.code ) === StatusCode.SUCCESS) {
       // 请求成功后就我们的数据从response取出并使返回的promise实例的状态变为成功的
       const token: string = res.headers[ENV.getClientTokenName()];
       if (token) {
@@ -130,7 +130,7 @@ const login = () => {
       ...API_LOGIN.userIdToBasicInfo,
       data: [userId],
     }).then((res: AxiosResponse<R<Record<number, BasicInfo>>>) => {
-      if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+      if ((res.data.code ) === StatusCode.SUCCESS) {
         const basicInfo = res.data.data[userId];
         if (
           !basicInfo ||

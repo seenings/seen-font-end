@@ -55,7 +55,7 @@ const uploadPhoto = (e: Event) => {
       },
     })
       .then((res: AxiosResponse<R<number>>) => {
-        if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+        if ((res.data.code ) === StatusCode.SUCCESS) {
           data.status = "上传成功";
         } else {
           data.status = "上传失败";
@@ -102,7 +102,7 @@ const reUploadPhoto = () => {
     },
   })
     .then((res: AxiosResponse<R<number>>) => {
-      if ((res.data.code as StatusCode) === StatusCode.SUCCESS) {
+      if ((res.data.code ) === StatusCode.SUCCESS) {
         data.status = "上传成功";
       } else {
         data.status = "上传失败";
