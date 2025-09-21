@@ -54,14 +54,15 @@
 import { useWindowSize } from "@vant/use";
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { ENV } from "../../../../ts/config";
-import { PathEnum, SeenRouterUtils } from "../../../../ts/router";
+import {   SeenRouterUtils } from "../../../../ts/router";
 import loginService from "../../../../ts/service/cosumer/sys/login";
+import {envService} from "../../../../ts/config/sys/env";
+import {PathEnum} from "../../../../ts/router/path-enum.ts";
 
 const { width, height } = useWindowSize();
 const router = useRouter();
 
-const welcomeUrl = ENV.imageUrl + "welcome.jpeg";
+const welcomeUrl = envService.imageUrl + "welcome.jpeg";
 watch([width, height], () => {});
 const goTo = () => {
   loginService.isLogin().then((res: boolean) => {

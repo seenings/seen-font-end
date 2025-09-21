@@ -477,9 +477,10 @@ import type{UserIntroduceInfo} from "../../../../ts/model/consumer/user-info/Bas
 import type{PersonIntroduce} from "../../../../ts/model/consumer/user-info/UserInfo.ts";
 import type{R} from "../../../../ts/model/sys/api-result.ts";
 import {StatusCode} from "../../../../ts/model/sys/api-result.ts";
-import {PathEnum, router, SeenRouterUtils} from "../../../../ts/router";
+import { router, SeenRouterUtils} from "../../../../ts/router";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
+import {PathEnum} from "../../../../ts/router/path-enum.ts";
 
 const primaryColor = ref("#437de8");
 const personIntroduceMain = ref<Element>();

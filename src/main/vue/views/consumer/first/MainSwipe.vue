@@ -84,7 +84,7 @@
                           userMainInfo.statureCm +
                           "CM" +
                           "·" +
-                       Education.key(userMainInfo.educationId) +
+                          Education.key(userMainInfo.educationId) +
                           "·" +
                           userMainInfo.workPositionName
                         }}
@@ -121,10 +121,11 @@ import seenAxios from "../../../../ts/http/seen-axios.ts";
 import type {PhotoContent} from "../../../../ts/model/consumer/photo/file.ts";
 import type {UserMainInfo} from "../../../../ts/model/consumer/user-info/UserMainInfo.ts";
 import type {R} from "../../../../ts/model/sys/api-result.ts";
-import {PathEnum, SeenRouterUtils} from "../../../../ts/router";
+import {SeenRouterUtils} from "../../../../ts/router";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
 import {Education} from "../../../../ts/model/consumer/school/Education.ts";
+import {PathEnum} from "../../../../ts/router/path-enum.ts";
 
 const bottomActiveName = ref<string>("主页");
 const {width, height} = useWindowSize();
@@ -158,7 +159,7 @@ const photoIdToPhotoContentMap = ref<Record<number, PhotoContent>>({});
 
 watch(
     () => userMainInfos.value,
-    (newVal, ) => {
+    (newVal,) => {
       let allPhotoIds: number[] = newVal.map((value) => {
         return value.mainPhotoId;
       });
