@@ -2,6 +2,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import {defineConfig} from "vite";
 // https://vitejs.dev/config/
+import Pages from 'vite-plugin-pages';
 
 export default defineConfig({
     base: "./",
@@ -18,7 +19,11 @@ export default defineConfig({
     },
     plugins: [
         vue(),
-        vueJsx()
+        vueJsx(),
+        Pages({
+            dirs: 'src/main/vue/views', // 需要生成路由的文件目录
+            exclude: ['**/components/*.vue'], // 排除在外的目录
+        })
     ],
     server: {
         host: "0.0.0.0",

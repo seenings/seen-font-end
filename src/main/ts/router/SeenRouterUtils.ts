@@ -1,21 +1,14 @@
 import type {LocationQueryRaw, Router} from "vue-router";
-import {PathEnum, type PathEnumValue, routeMap} from "./index.ts";
+import {type PathEnumValue} from "./path-enum.ts";
 
 export class SeenRouterUtils {
     static toPage(
-        userRouter: Router,
+        router: Router,
         pathEnum: PathEnumValue,
         queryParam?: LocationQueryRaw,
     ) {
-        const page = routeMap.get(pathEnum);
-        const userRouterValue = userRouter;
-        if (page) {
-            /* empty */
-        } else {
-            pathEnum = PathEnum.Welcome;
-        }
-        return userRouterValue.push({
-            name: PathEnum.key(pathEnum).toLowerCase(),
+        return router.push({
+            path: pathEnum,
             query: queryParam,
         });
     }
