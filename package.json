@@ -1,6 +1,6 @@
 {
   "name": "seen-font-end",
-  "version": "0.1.64",
+  "version": "0.1.65",
   "type": "module",
   "private": true,
   "author": {
@@ -12,10 +12,9 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "update-check": "npm-check -u",
-    "install-dep": "npm install vite-plugin-pages"
+    "list-depth": "npm list --depth=100"
   },
   "devDependencies": {
-    "@types/node": "^24.5.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.1.1",
     "@vitest/coverage-v8": "^3.2.4",
@@ -24,15 +23,12 @@
     "axios": "^1.8.4",
     "dayjs": "^1.11.13",
     "enum-plus": "^2.4.3",
-    "jsdom": "^27.0.0",
     "npm-check": "^6.0.1",
     "pinia": "^3.0.1",
     "vant": "^4.9.18",
-    "vite": "^7.1.6",
-    "vue": "^3.5.21",
+    "vite-plugin-pages": "^0.33.1",
     "vue-router": "^4.4.5",
     "vue-timer-hook": "^1.0.82",
-    "vue-tsc": "^3.0.7",
-    "vite-plugin-pages": "^0.33.1"
+    "vue-tsc": "^3.0.8"
   }
 }
