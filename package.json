@@ -1,6 +1,6 @@
 {
   "name": "seen-font-end",
-  "version": "0.1.67",
+  "version": "0.1.68",
   "type": "module",
   "private": true,
   "author": {
@@ -24,10 +24,10 @@
     "dayjs": "^1.11.13",
     "enum-plus": "^2.4.3",
     "pinia": "^3.0.1",
-    "vant": "^4.9.18",
+    "vant": "^4.9.21",
     "vite-plugin-pages": "^0.33.1",
     "vue-router": "^4.4.5",
     "vue-timer-hook": "^1.0.82",
-    "vue-tsc": "^3.0.8"
+    "vue-tsc": "^3.1.0"
   }
 }

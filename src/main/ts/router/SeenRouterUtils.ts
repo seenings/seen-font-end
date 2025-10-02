@@ -7,8 +7,9 @@ export class SeenRouterUtils {
         pathEnum: PathEnumValue,
         queryParam?: LocationQueryRaw,
     ) {
+        console.debug(`路由到：${pathEnum}`)
         return router.push({
-            path: pathEnum,
+            path: `/${pathEnum}`,
             query: queryParam,
         });
     }
