@@ -108,7 +108,6 @@ import {ref} from "vue";
 import {useRoute} from "vue-router";
 
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
-import {AJAX} from "../../../../ts/config";
 import {API_BASIC_INFO} from "../../../../ts/http/basic-info-service-api.ts";
 import {Education, type EducationValue} from "../../../../ts/model/consumer/school/Education.ts";
 import type {BasicInfo} from "../../../../ts/model/consumer/user-info/BasicInfo.ts";
@@ -116,6 +115,7 @@ import {Sex} from "../../../../ts/model/consumer/user-info/Sex.ts";
 import type {R} from "../../../../ts/model/sys/api-result.ts";
 import {PathEnum, SeenRouterUtils, router} from "../../../../ts/router";
 import {SchoolUtils} from "../../../../ts/util/consumer/school/school-util.ts";
+import seenAxios from "../../../../ts/http/seen-axios.ts";
 
 const currentYear = ref<number>(new Date().getFullYear());
 const isMale = ref(true);
@@ -161,7 +161,7 @@ const onEnterClick = () => {
   const data: BasicInfo = {
     userId: userId.value,
     sex: isMale.value ? Sex.MALE : Sex.FEMALE,
-    education: Education.key(education.value),
+    education: education.value,
     birthYear: birthYear.value,
     graduated: isGraduated.value,
   };
@@ -169,10 +169,12 @@ const onEnterClick = () => {
     ...API_BASIC_INFO.saveBasicInfo,
     data: data,
   };
-  AJAX.request<string>(config).then((res: R<string>) => {
-    if (res.code === 1) {
+  return seenAxios<R<string>>(config).then((res) => {
+    return res.data;
+  }).then((data) => {
+    if (data.code === 1) {
       //进入首页
-      SeenRouterUtils.toPage(router, PathEnum.MainSwipe, {
+      return SeenRouterUtils.toPage(router, PathEnum.MainSwipe, {
         userId: userId.value,
       });
     }

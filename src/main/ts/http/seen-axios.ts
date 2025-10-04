@@ -12,16 +12,14 @@ seenAxios.interceptors.request.use(
     }
 );
 seenAxios.interceptors.response.use((res: AxiosResponse<string, object>) => {
-    if (res.status === 500) {
+    if (res.status === 500 || res.status == 400) {
         showNotify({message: res.statusText, type: "danger"});
         console.error(res.data);
     }
     return res;
 }, (error) => {
     const res = error.response
-    if (res.status === 500) {
-        showNotify({message: res.statusText, type: "danger"});
-    } else if (res.status === 503) {
+    if (res.status === 500 || res.status === 503) {
         showNotify({message: res.statusText, type: "danger"});
     }
     return Promise.reject(error);
