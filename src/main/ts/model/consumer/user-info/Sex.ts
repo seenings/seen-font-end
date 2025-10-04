@@ -8,16 +8,16 @@ export const Sex = Enum({
 export type SexKey = typeof Sex.keyType;
 export type SexValue = typeof Sex.valueType;
 
-let a: SexKey = "NONE";
-let bn: SexValue = Sex.NONE;
-let cn: SexValue = Sex[a];
-let an: SexValue = 0;
-let b: SexKey = Sex.key(Sex.NONE)
-console.log(a);
-console.log(bn);
-console.log(cn);
-console.log(an);
-console.log(b);
+// let a: SexKey = "NONE";
+// let bn: SexValue = Sex.NONE;
+// let cn: SexValue = Sex[a];
+// let an: SexValue = 0;
+// let b: SexKey = Sex.key(Sex.NONE)
+// console.log(a);
+// console.log(bn);
+// console.log(cn);
+// console.log(an);
+// console.log(b);
 
 
 export const MaritalStatus = Enum({

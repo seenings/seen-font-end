@@ -75,11 +75,32 @@ npm run lint
 ```
 
 ```shell
+$$Env:SEEN_VERSION = "0.1.69"
+$$Env:SEEN_VERSION
 $$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\22.20.0\node.exe"
 $$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\22.20.0\npm.exe"
+```
+
+```shell
 npm version patch
 ```
 
 ```shell
 git add .
+```
+
+```shell
+git commit -m "#69 数据库调整"
+```
+
+```shell
+git tag -a v$Env:SEEN_VERSION -m "发布版本$Env:SEEN_VERSION"
+```
+
+```shell
+git push origin v$Env:SEEN_VERSION
+```
+
+```shell
+git push origin dev_chixh
 ```
