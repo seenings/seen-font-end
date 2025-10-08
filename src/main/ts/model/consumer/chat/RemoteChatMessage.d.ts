@@ -1,6 +1,8 @@
+import type {ContentTypeValue} from "./chat.ts";
+
 export default interface RemoteChatMessage {
   id: number;
-  contentTypeId: number;
+  contentTypeId: ContentTypeValue;
 
   contentId: number;
 

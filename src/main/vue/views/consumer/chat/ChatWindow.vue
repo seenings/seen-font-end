@@ -145,7 +145,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, type Ref, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 import {useWindowSize} from "@vant/use";
@@ -160,9 +160,14 @@ import {API_CHAT} from "../../../../ts/http/chat-service-api.ts";
 import {API_PHOTO} from "../../../../ts/http/photo-service-api.ts";
 import {API_VOICE} from "../../../../ts/http/voice-service-api.ts";
 import type RemoteChatMessage from "../../../../ts/model/consumer/chat/RemoteChatMessage";
-import {ContentType, type ContentTypeValue,type LocalChatMessage,type Voice,} from "../../../../ts/model/consumer/chat/chat.ts";
-import type{UserInfo} from "../../../../ts/model/consumer/user-info/UserInfo.ts";
-import type{UserMainInfo} from "../../../../ts/model/consumer/user-info/UserMainInfo.ts";
+import {
+  ContentType,
+  type ContentTypeValue,
+  type LocalChatMessage,
+  type Voice,
+} from "../../../../ts/model/consumer/chat/chat.ts";
+import type {UserInfo} from "../../../../ts/model/consumer/user-info/UserInfo.ts";
+import type {UserMainInfo} from "../../../../ts/model/consumer/user-info/UserMainInfo.ts";
 import {type R, StatusCode} from "../../../../ts/model/sys/api-result.ts";
 import {PathEnum, SeenRouterUtils} from "../../../../ts/router";
 import {DateUtil} from "../../../../ts/util/date-util.ts";
@@ -198,7 +203,7 @@ const historyIdToRemoteChatMessageMap = ref<Record<number, RemoteChatMessage>>(
     {}
 );
 //1 文本，2 图片，3 语音
-const valueType = ref<ContentTypeValue>(ContentType.TEXT);
+const valueType:Ref<number> = ref<ContentTypeValue>(ContentType.TEXT);
 // 预先设置一个变量来存MediaRecorder实例
 let mediaRecorder: MediaRecorder;
 const audioFile = ref<File>();
@@ -575,9 +580,7 @@ const updateLocalIdToHistoryIdMap = (historyIds: number[]) => {
         // 更新本地聊天记录
         let localChatMessage: LocalChatMessage = {
           remoteId: remoteId,
-          contentType:
-          remoteChatMessage.contentTypeId
-          ,
+          contentType: remoteChatMessage.contentTypeId,
           text: "",
           file: null,
           sendTime: new Date(remoteChatMessage.sendTime),

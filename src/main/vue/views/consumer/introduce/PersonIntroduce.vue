@@ -459,7 +459,7 @@
 
 <script lang="ts" setup>
 import {useWindowSize} from "@vant/use";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, type Ref, ref, watch} from "vue";
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
 
 import {showImagePreview, showNotify, showToast} from "vant";
@@ -480,13 +480,13 @@ import {StatusCode} from "../../../../ts/model/sys/api-result.ts";
 import {router, SeenRouterUtils} from "../../../../ts/router";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
-import {PathEnum} from "../../../../ts/router/path-enum.ts";
+import {PathEnum} from "../../../../ts/router";
 
 const primaryColor = ref("#437de8");
 const personIntroduceMain = ref<Element>();
 const route = useRoute();
 //对方的id
-const pageUserId = Number(route.query.pageUserId);
+const pageUserId: number = Number(route.query.pageUserId + "");
 if (pageUserId == null) {
   console.error("页面访问异常");
   showToast("页面访问异常");
@@ -665,15 +665,19 @@ const authInfo = ref<AuthInfo>({
 });
 const personIntroduceData = ref<PersonIntroduce[]>([]);
 const photoIdToPhotoContentMap = ref<Record<number, PhotoContent>>({});
-const primayPhotoIds = ref<number[]>([]);
+const primayPhotoIds: Ref<number[]> = ref([]);
 watch(primayPhotoIds, (newVal) => {
-  let photoIds = [
+  let photoIds = new Set([
     ...
-        (newVal?.map((v) => {
+        (newVal?.filter(v => {
+              v !== null
+            }).map((v) => {
               return v;
             })
         ),
-  ];
+  ]);
+  console.log("主照片ID：{}", primayPhotoIds)
+  console.log("照片ID：{}", photoIds)
   photoIds.forEach((photoId) => {
     photoService.photoIdToResourcesByCompress(photoId).then((res) => {
       if (!photoIdToPhotoContentMap.value[photoId] ||
@@ -698,6 +702,7 @@ const userIdToPrimaryPhotoId = () => {
     data: [pageUserId],
   };
   return seenAxios<R<Record<number, number[]>>>(config).then((res) => {
+    console.log("页面ID：" + pageUserId + "，返回消息：" + JSON.stringify(res.data.data));
     primayPhotoIds.value = res.data.data[pageUserId]
         ? res.data.data[pageUserId]
         : [];
