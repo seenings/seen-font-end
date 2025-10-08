@@ -140,7 +140,7 @@ class PhotoService {
         if (!photoId) {
             return ''
         }
-        return `/seen/rest-v1/file/file-content/photo-id-to-resources-by-compress?photoId=${photoId}&${envService.getClientTokenName()}=${envService.getClientToken()}`;
+        return `${API_PHOTO.photoIdToResourcesByCompress.url}?photoId=${photoId}&${envService.getClientTokenName()}=${envService.getClientToken()}`;
     }
 }
 

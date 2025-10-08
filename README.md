@@ -75,11 +75,13 @@ npm run lint
 ```
 
 ```shell
-$$Env:SEEN_VERSION = "0.1.69"
+$$Env:SEEN_VERSION = "0.1.70"
 $$Env:SEEN_VERSION
 $$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\22.20.0\node.exe"
 $$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\22.20.0\npm.exe"
 ```
+
+### 新的开发
 
 ```shell
 npm version patch
@@ -90,7 +92,7 @@ git add .
 ```
 
 ```shell
-git commit -m "#69 数据库调整"
+git commit -m "#70 照片上传下载调通"
 ```
 
 ```shell

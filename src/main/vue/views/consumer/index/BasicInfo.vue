@@ -29,16 +29,16 @@
   <van-row title="学历">
     <van-col :span="2" style="opacity: 0">空白列</van-col>
     <van-col
-        v-for="(educationEntry, key) in educations"
+        v-for="( key) of educations.keys()"
         :key="key"
         :span="20 / educations.size"
     >
       <van-button
-          :plain="education !== educationEntry[0]"
+          :plain="education !== 0"
           round
           type="primary"
-          @click="onEducationClick(educationEntry[0])"
-      >{{ Education.key(educationEntry[0]) }}
+          @click="onEducationClick(key)"
+      >{{ Education.key(key) }}
       </van-button>
     </van-col>
     <van-col :span="2" style="opacity: 0">空白列</van-col>
@@ -104,12 +104,12 @@
 <script lang="ts" setup>
 import type {PickerOption} from "vant";
 import type {Numeric} from "vant/lib/utils";
-import {ref} from "vue";
+import {type Ref, ref} from "vue";
 import {useRoute} from "vue-router";
 
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
 import {API_BASIC_INFO} from "../../../../ts/http/basic-info-service-api.ts";
-import {Education, type EducationValue} from "../../../../ts/model/consumer/school/Education.ts";
+import {Education} from "../../../../ts/model/consumer/school/Education.ts";
 import type {BasicInfo} from "../../../../ts/model/consumer/user-info/BasicInfo.ts";
 import {Sex} from "../../../../ts/model/consumer/user-info/Sex.ts";
 import type {R} from "../../../../ts/model/sys/api-result.ts";
@@ -119,7 +119,7 @@ import seenAxios from "../../../../ts/http/seen-axios.ts";
 
 const currentYear = ref<number>(new Date().getFullYear());
 const isMale = ref(true);
-const education = ref(Education["学士"]);
+const education: Ref<number> = ref(Education["学士"]);
 const educations = SchoolUtils.toEducations();
 const birthYear = ref<number>(currentYear.value - 24);
 const showPicker = ref(false);
@@ -145,12 +145,21 @@ const onConfirm = () => {
 const changeMale = () => {
   isMale.value = !isMale.value;
 };
-const changeEducation = (item: EducationValue) => {
+const changeEducation = (item: number) => {
   education.value = item;
 };
-const onEducationClick = (item: EducationValue) => {
+const onEducationClick = (item: number) => {
   changeEducation(item);
 };
+let keys = educations.keys();
+
+for (let key of keys) {
+  let value = educations.get(key)
+  console.log("key", key);
+  console.log("value", value);
+}
+
+
 const isGraduated = ref(true);
 const changeGraduated = () => {
   isGraduated.value = !isGraduated.value;

@@ -1,4 +1,3 @@
-import type {EducationValue} from "../school/Education.ts";
 import type {Sex} from "./Sex.ts";
 
 export interface BasicInfo {
@@ -15,7 +14,7 @@ export interface BasicInfo {
     /**
      * 学历
      */
-    education?: EducationValue;
+    education: number;
 
     /**
      * 出生年份

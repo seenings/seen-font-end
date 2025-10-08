@@ -8,8 +8,8 @@ export class SchoolUtils {
 
         const result = new Map<number, string>();
         Education.values
-            .forEach((value, key) => {
-                result.set(key, value.key);
+            .forEach((value) => {
+                result.set(value, Education.key(value));
             })
         return result;
     }
