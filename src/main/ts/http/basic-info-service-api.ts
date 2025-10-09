@@ -52,7 +52,7 @@ export const API_BASIC_INFO = {
         method: "get",
     },
     introduceTypeIndexToPersonIntroduce: {
-        url: "/rest-v1/user/info/introduce-type-index-to-person-introduce",
+        url: "/seen/rest-v1/user/info/introduce-type-index-to-person-introduce",
         method: "post",
     },
     savePersonIntroduce: {

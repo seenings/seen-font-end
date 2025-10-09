@@ -137,7 +137,7 @@
         <van-col :span="1" style="opacity: 0">空白列</van-col>
       </van-row>
       <seen-blank-row :height="20"/>
-      <van-row v-if="authInfo !== null" title="身份认证">
+      <van-row v-if="authInfo.totalValue !== 0" title="身份认证">
         <van-col :span="6"><p style="font-weight: bolder">身份认证</p></van-col>
         <van-col :span="10" style="opacity: 0">空白列</van-col>
         <van-col
@@ -152,9 +152,9 @@
         </van-col>
       </van-row>
       <seen-blank-row/>
-      <van-row>
+      <van-row v-if="authInfo.totalValue !== 0" title="认证内容">
         <van-col :span="24">
-          <van-row :gutter="2" title="认证内容">
+          <van-row :gutter="2">
             <van-col :span="8">
               <van-row>
                 <van-col :span="24">
@@ -481,6 +481,7 @@ import {router, SeenRouterUtils} from "../../../../ts/router";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
 import {PathEnum} from "../../../../ts/router";
+import {NavigatorUtil} from "../../../../ts/context/navigator-util.ts";
 
 const primaryColor = ref("#437de8");
 const personIntroduceMain = ref<Element>();
@@ -567,7 +568,13 @@ const onClickBack = () => {
 };
 const onClickShare = () => {
   //推荐给朋友 TODO
-  showToast("未对接接口");
+  let href = document.location.href;
+  console.log("href=" + href);
+  NavigatorUtil.clipboardToWriteText(href).then(res => {
+    if (res) {
+      showToast("已复制到剪切板，粘贴给对方");
+    }
+  });
 };
 const showCoinEnough = ref<boolean>(false);
 const showCoinNotEnough = ref<boolean>(false);
@@ -628,11 +635,11 @@ const onClickThumb = () => {
   thumbUser();
 };
 const tagNames = ref<string[]>([
-  "外冷内热",
-  "犬系",
-  "直率",
-  "开朗积极",
-  "独立",
+  /*  "外冷内热",
+    "犬系",
+    "直率",
+    "开朗积极",
+    "独立",*/
 ]);
 
 interface AuthInfo {
@@ -659,7 +666,7 @@ const onClickUploadPhoto = () => {
 };
 const authInfo = ref<AuthInfo>({
   education: false,
-  totalValue: 30,
+  totalValue: 0,
   identity: false,
   work: false,
 });
@@ -667,17 +674,7 @@ const personIntroduceData = ref<PersonIntroduce[]>([]);
 const photoIdToPhotoContentMap = ref<Record<number, PhotoContent>>({});
 const primayPhotoIds: Ref<number[]> = ref([]);
 watch(primayPhotoIds, (newVal) => {
-  let photoIds = new Set([
-    ...
-        (newVal?.filter(v => {
-              v !== null
-            }).map((v) => {
-              return v;
-            })
-        ),
-  ]);
-  console.log("主照片ID：{}", primayPhotoIds)
-  console.log("照片ID：{}", photoIds)
+  let photoIds = newVal ? new Set(newVal) : [];
   photoIds.forEach((photoId) => {
     photoService.photoIdToResourcesByCompress(photoId).then((res) => {
       if (!photoIdToPhotoContentMap.value[photoId] ||
@@ -702,7 +699,6 @@ const userIdToPrimaryPhotoId = () => {
     data: [pageUserId],
   };
   return seenAxios<R<Record<number, number[]>>>(config).then((res) => {
-    console.log("页面ID：" + pageUserId + "，返回消息：" + JSON.stringify(res.data.data));
     primayPhotoIds.value = res.data.data[pageUserId]
         ? res.data.data[pageUserId]
         : [];
