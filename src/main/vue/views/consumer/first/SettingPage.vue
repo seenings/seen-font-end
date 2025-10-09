@@ -134,6 +134,7 @@ import {StatusCode} from "../../../../ts/model/sys/api-result.ts";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import loginService from "../../../../ts/service/cosumer/sys/login";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
+import {NavigatorUtil} from "../../../../ts/context/navigator-util.ts";
 
 const bottomActiveName = ref<string>("设置");
 const router = useRouter();
@@ -210,8 +211,10 @@ const onSelect = (option: ShareSheetOption) => {
   let href;
   switch (option.name) {
     case "复制链接":
-      href = "/";
-      clipboardToWriteText(href);
+      href = document.location.href;
+      href = document.location.origin;
+      console.log("href=" + href);
+      NavigatorUtil.clipboardToWriteText(href);
       showToast({message: `链接是${href}`});
       showShare.value = false;
       break;
@@ -234,14 +237,9 @@ const showPrivacySecurity = () => {
   SeenRouterUtils.toPage(router, PathEnum.PrivacySecurity);
 };
 
-const clipboardToWriteText = (value: string) => {
-  navigator.clipboard.writeText(value);
-};
-
 onMounted(() => {
   loadUserInfo();
 });
 </script>
 
 <style scoped></style>
-../../../service/cosumer/sys/login../../../service/cosumer/photo/photo-service

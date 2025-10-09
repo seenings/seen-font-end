@@ -75,8 +75,6 @@ npm run lint
 ```
 
 ```shell
-$$Env:SEEN_VERSION = "0.1.70"
-$$Env:SEEN_VERSION
 $$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\22.20.0\node.exe"
 $$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\22.20.0\npm.exe"
 ```
@@ -88,11 +86,16 @@ npm version patch
 ```
 
 ```shell
+$$Env:SEEN_VERSION = "0.1.71"
+$$Env:SEEN_VERSION
+```
+
+```shell
 git add .
 ```
 
 ```shell
-git commit -m "#70 照片上传下载调通"
+git commit -m "#71 照片上传下载去除移动端不支持的数据库"
 ```
 
 ```shell
