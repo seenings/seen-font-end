@@ -198,7 +198,6 @@ import {onMounted, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import MainPageBottom from "../../../components/MainPageBottom.vue";
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
-import {AJAX, ENV} from "../../../../ts/config";
 import {API_CHAT} from "../../../../ts/http/chat-service-api.ts";
 import seenAxios from "../../../../ts/http/seen-axios.ts";
 import {ApplyStatus, type ApplyStatusValue} from "../../../../ts/model/consumer/friend/ApplyStatus.ts";
@@ -210,16 +209,15 @@ import {PathEnum, SeenRouterUtils} from "../../../../ts/router";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
 import {DateUtil} from "../../../../ts/util/date-util.ts";
-import {UrlUtils} from "../../../../ts/util/url-util.ts";
-import {envService} from "../../../../ts/config/sys/env";
 
 const bottomActiveName = ref<string>("聊天");
 const applyActiveName = ref<string>("收到的");
 const chatActiveName = ref<string>("聊天列表");
 const recInfos = ref<RecInfo[]>([
   {
-    applyId: 0,
+    mainPhotoId: 0,
     mainPhotoUrl: "",
+    applyId: 0,
     name: "",
     applyStatus: 0,
     userId: 0,
@@ -227,6 +225,7 @@ const recInfos = ref<RecInfo[]>([
 ]);
 const sendInfos = ref<SendInfo[]>([
   {
+    mainPhotoId: 0,
     mainPhotoUrl: "",
     name: "名字",
     applyId: 0,
@@ -237,17 +236,19 @@ const sendInfos = ref<SendInfo[]>([
 ]);
 
 interface RecInfo {
+  mainPhotoId: number;
   applyId: number;
-  mainPhotoUrl: string;
   name: string;
+  mainPhotoUrl: string;
   applyStatus: ApplyStatusValue;
   userId: number;
 }
 
 interface SendInfo {
+  mainPhotoId: number;
   applyId: number;
-  mainPhotoUrl: string;
   name: string;
+  mainPhotoUrl: string;
   applyStatus: number;
   userId: number;
   applyTime: Date;
@@ -332,10 +333,10 @@ const selfUserIdToRecInfo = () => {
       size: 10,
     },
   };
-  AJAX.request<RecInfo[]>(config).then((res) => {
-    if ((res.code) === StatusCode.SUCCESS) {
-      recInfos.value = res.data.map((n) => {
-        n.mainPhotoUrl = UrlUtils.relationUrlToFullPathUrl(envService, n.mainPhotoUrl);
+  seenAxios<R<RecInfo[]>>(config).then((res) => {
+    if ((res.data.code) === StatusCode.SUCCESS) {
+      recInfos.value = res.data.data.map((n) => {
+        n.mainPhotoUrl = photoService.photoIdToPhotoUrl(n.mainPhotoId)
         return n;
       });
     }
@@ -349,10 +350,11 @@ const selfUserIdToSendInfo = () => {
       size: 10,
     },
   };
-  AJAX.request<SendInfo[]>(config).then((res) => {
-    if ((res.code) === StatusCode.SUCCESS) {
-      sendInfos.value = res.data.map((n) => {
-        n.mainPhotoUrl = UrlUtils.relationUrlToFullPathUrl(ENV, n.mainPhotoUrl);
+  seenAxios<R<SendInfo[]>>(config).then((res) => {
+    if ((res.data.code) === StatusCode.SUCCESS) {
+      sendInfos.value = res.data.data.map((n) => {
+        n.mainPhotoUrl = photoService.photoIdToPhotoUrl(n.mainPhotoId)
+        console.log("sendInfo", n);
         return n;
       });
     }
@@ -369,4 +371,3 @@ onMounted(() => {
 </script>
 
 <style scoped></style>
-../../../service/cosumer/photo/photo-service

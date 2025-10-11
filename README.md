@@ -86,7 +86,7 @@ npm version patch
 ```
 
 ```shell
-$$Env:SEEN_VERSION = "0.1.71"
+$$Env:SEEN_VERSION = "0.1.72"
 $$Env:SEEN_VERSION
 ```
 
@@ -95,7 +95,7 @@ git add .
 ```
 
 ```shell
-git commit -m "#71 照片上传下载去除移动端不支持的数据库"
+git commit -m "#72 申请添加好友调通"
 ```
 
 ```shell

@@ -4,11 +4,11 @@ export const API_CHAT = {
     method: "post",
   },
   selfUserIdToRecInfo: {
-    url: "/rest-v1/chat/friend-info/self-user-id-to-rec-info",
+    url: "/seen/rest-v1/chat/friend-info/self-user-id-to-rec-info",
     method: "post",
   },
   selfUserIdToSendInfo: {
-    url: "/rest-v1/chat/friend-info/self-user-id-to-send-info",
+    url: "/seen/rest-v1/chat/friend-info/self-user-id-to-send-info",
     method: "post",
   },
   sendChatTextMessage: {
