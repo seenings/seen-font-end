@@ -9,8 +9,8 @@ export type SexKey = typeof Sex.keyType;
 export type SexValue = typeof Sex.valueType;
 
 export const MaritalStatus = Enum({
-    "已婚": 0,
-    "未婚": 1,
+    "未婚": 0,
+    "已婚": 1,
     "离异无孩": 2,
     "离异带孩": 3,
     "离异不带孩": 4,

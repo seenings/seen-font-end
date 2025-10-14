@@ -806,8 +806,8 @@ const onClickSexEdit = () => {
 };
 const onClickSexOk = () => {
   showPicker.sex = false;
-  if(editBasicInformation.value.sex[0])
-  basicInformation.value.sex = editBasicInformation.value.sex[0];
+  if (editBasicInformation.value.sex[0])
+    basicInformation.value.sex = editBasicInformation.value.sex[0];
 };
 //身高
 const onClickStatureEdit = () => {
@@ -850,14 +850,16 @@ const onClickBirthPlaceOk = () => {
 //婚姻状况
 const onClickMaritalStatusEdit = () => {
   showPicker.maritalStatus = true;
+  console.log("基础信息：" + JSON.stringify(basicInformation.value))
   editBasicInformation.value.maritalStatus[0] =
       basicInformation.value.maritalStatus;
 };
 const onClickMaritalStatusOk = () => {
   showPicker.maritalStatus = false;
-  if (editBasicInformation.value.maritalStatus[0])
+  if (editBasicInformation.value.maritalStatus[0]) {
     basicInformation.value.maritalStatus =
         editBasicInformation.value.maritalStatus[0];
+  }
 };
 //公司
 const onClickWorkCompanyEdit = () => {
@@ -876,9 +878,9 @@ const onClickAnnualIncomeIndexEdit = () => {
 };
 const onClickAnnualIncomeIndexOk = () => {
   showPicker.annualIncomeIndex = false;
-  if(editEducationAndWork.value.annualIncomeIndex[0])
-  educationAndWork.value.annualIncomeIndex =
-      editEducationAndWork.value.annualIncomeIndex[0];
+  if (editEducationAndWork.value.annualIncomeIndex[0])
+    educationAndWork.value.annualIncomeIndex =
+        editEducationAndWork.value.annualIncomeIndex[0];
 };
 const onClickPhoneNumberEdit = () => {
   showToast({

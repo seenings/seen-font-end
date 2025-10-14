@@ -76,22 +76,34 @@
             <van-col :span="8" style="text-align: left">
               {{
                 userIntroduceInfo.birthYear +
-                "年" +
-                "·" +
-                userIntroduceInfo.constellation
+                "年"
               }}
+              <label v-if="userIntroduceInfo.constellation">
+                {{
+                  "·" +
+                  userIntroduceInfo.constellation
+                }}
+              </label>
+              <label v-else class="seen-info-color">
+                请补充
+              </label>
             </van-col>
             <van-col :span="2">
               <van-icon name="manager-o"/>
             </van-col>
             <van-col :span="12" style="text-align: left">
-              {{
-                userIntroduceInfo.statureCm +
-                "CM" +
-                "·" +
-                userIntroduceInfo.weightKg +
-                "KG"
-              }}
+              <label v-if="userIntroduceInfo.statureCm">
+                {{
+                  userIntroduceInfo.statureCm +
+                  "CM" +
+                  "·" +
+                  userIntroduceInfo.weightKg +
+                  "KG"
+                }}
+              </label>
+              <label v-else class="seen-info-color">
+                请补充
+              </label>
             </van-col>
           </van-row>
           <van-row title="所在地">
@@ -99,14 +111,19 @@
               <van-icon name="wap-home-o"/>
             </van-col>
             <van-col :span="22" style="text-align: left">
-              {{
-                "现居" +
-                userIntroduceInfo.currentResidenceCityName +
-                "·" +
-                userIntroduceInfo.birthPlaceProvinceName +
-                userIntroduceInfo.birthPlaceCityName +
-                "人"
-              }}
+              <label v-if="userIntroduceInfo.currentResidenceCityName">
+                {{
+                  "现居" +
+                  userIntroduceInfo.currentResidenceCityName +
+                  "·" +
+                  userIntroduceInfo.birthPlaceProvinceName +
+                  userIntroduceInfo.birthPlaceCityName +
+                  "人"
+                }}
+              </label>
+              <label v-else class="seen-info-color">
+                请补充
+              </label>
             </van-col>
           </van-row>
           <van-row title="学历">
@@ -114,11 +131,15 @@
               <van-icon name="desktop-o"/>
             </van-col>
             <van-col :span="22" style="text-align: left">
-              {{
-                Education.key(userIntroduceInfo.educationId) +
-                "·" +
-                userIntroduceInfo.schoolName
-              }}
+              {{ Education.key(userIntroduceInfo.educationId) }}
+              <label v-if="userIntroduceInfo.schoolName">
+                {{
+                  "·" + userIntroduceInfo.schoolName
+                }}
+              </label>
+              <label v-else class="seen-info-color">
+                请补充
+              </label>
             </van-col>
           </van-row>
           <van-row title="工作">
@@ -126,11 +147,16 @@
               <van-icon name="manager-o"/>
             </van-col>
             <van-col :span="22" style="text-align: left">
-              {{
-                userIntroduceInfo.workPositionName +
-                "·" +
-                userIntroduceInfo.workCompanyName
-              }}
+              <label v-if="userIntroduceInfo.workPositionName">
+                {{
+                  userIntroduceInfo.workPositionName +
+                  "·" +
+                  userIntroduceInfo.workCompanyName
+                }}
+              </label>
+              <label v-else class="seen-info-color">
+                请补充
+              </label>
             </van-col>
           </van-row>
         </van-col>
@@ -749,11 +775,8 @@ const userIdToTagName = () => {
     data: [pageUserId],
   };
   seenAxios<R<Record<number, string[]>>>(config).then((res) => {
-    if (res.data.data[pageUserId] === undefined) {
-      console.error(`用户信息不存在，用户ID${pageUserId}`)
-      return;
-    }
-    tagNames.value = res.data.data[pageUserId];
+    let data = res.data.data[pageUserId];
+    tagNames.value = data ? data : [];
   });
 };
 const thumb = ref<boolean>(false);

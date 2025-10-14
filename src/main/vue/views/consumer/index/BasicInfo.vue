@@ -4,21 +4,13 @@
   <van-row title="性别">
     <van-col :span="8" style="opacity: 0">空白列</van-col>
     <van-col :span="4">
-      <van-button v-if="isMale" round type="primary" @click="changeMale"
-      >男生
-      </van-button
-      >
-      <van-button v-else plain round type="primary" @click="changeMale"
+      <van-button :plain="!isMale" round type="primary" @click="changeMale"
       >男生
       </van-button
       >
     </van-col>
     <van-col :span="4">
-      <van-button v-if="isMale" plain round type="primary" @click="changeMale"
-      >女生
-      </van-button
-      >
-      <van-button v-else round type="primary" @click="changeMale"
+      <van-button :plain="isMale" round type="primary" @click="changeMale"
       >女生
       </van-button
       >
@@ -34,7 +26,7 @@
         :span="20 / educations.size"
     >
       <van-button
-          :plain="education !== 0"
+          :plain="education !== key"
           round
           type="primary"
           @click="onEducationClick(key)"
@@ -151,15 +143,6 @@ const changeEducation = (item: number) => {
 const onEducationClick = (item: number) => {
   changeEducation(item);
 };
-let keys = educations.keys();
-
-for (let key of keys) {
-  let value = educations.get(key)
-  console.log("key", key);
-  console.log("value", value);
-}
-
-
 const isGraduated = ref(true);
 const changeGraduated = () => {
   isGraduated.value = !isGraduated.value;

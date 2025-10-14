@@ -11,8 +11,10 @@ export class NavigatorUtil {
                 return true;
             });
         } else {
-            console.error("Navigator.Clipboard API is not available in this browser");
-            return new Promise(() => false)
+            console.warn("Navigator.Clipboard API is not available in this browser");
+            return Promise.resolve().then(() => {
+                return false;
+            });
         }
     }
 }

@@ -354,7 +354,6 @@ const selfUserIdToSendInfo = () => {
     if ((res.data.code) === StatusCode.SUCCESS) {
       sendInfos.value = res.data.data.map((n) => {
         n.mainPhotoUrl = photoService.photoIdToPhotoUrl(n.mainPhotoId)
-        console.log("sendInfo", n);
         return n;
       });
     }

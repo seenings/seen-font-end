@@ -54,22 +54,21 @@
                       <van-col
                           :span="7"
                           style="text-align: left; font-weight: bold"
-                      >{{ "现居" + userMainInfo.currentResidenceCityName }}
+                      >{{ userMainInfo.currentResidenceCityName ? "现居" + userMainInfo.currentResidenceCityName : "" }}
                       </van-col>
                       <van-col
                           :span="1"
                           style="text-align: left; font-weight: bold"
-                      >·
+                      >
                       </van-col>
                       <van-col
                           :span="9"
                           style="text-align: left; font-weight: bold"
                       >
                         <van-text-ellipsis
-                            :content="`${
-                            userMainInfo.birthPlaceProvinceName +
-                            userMainInfo.birthPlaceCityName
-                          }人`"
+                            :content="
+                            userMainInfo.birthPlaceProvinceName? ('·'+userMainInfo.birthPlaceProvinceName +
+                              userMainInfo.birthPlaceCityName+  '人'):''"
                         />
                       </van-col>
                       <van-col :span="7" style="opacity: 0">空白列</van-col>
@@ -78,15 +77,13 @@
                     <van-row title="信息">
                       <van-col :span="23" style="text-align: left"
                       >{{
-                          userMainInfo.birthYear +
-                          "年" +
-                          "·" +
-                          userMainInfo.statureCm +
-                          "CM" +
+                          userMainInfo.birthYear + "年" +
+                          (userMainInfo.statureCm ? "·" +
+                              userMainInfo.statureCm + "CM" : "") +
                           "·" +
                           Education.key(userMainInfo.educationId) +
-                          "·" +
-                          userMainInfo.workPositionName
+                          (userMainInfo.workPositionName ? "·" +
+                              userMainInfo.workPositionName : "")
                         }}
                       </van-col>
                     </van-row>
@@ -115,7 +112,6 @@ import {computed, onMounted, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import MainPageBottom from "../../../components/MainPageBottom.vue";
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
-import {AJAX} from "../../../../ts/config";
 import {API_BASIC_INFO} from "../../../../ts/http/basic-info-service-api.ts";
 import seenAxios from "../../../../ts/http/seen-axios.ts";
 import type {PhotoContent} from "../../../../ts/model/consumer/photo/file.ts";
@@ -125,7 +121,7 @@ import {SeenRouterUtils} from "../../../../ts/router";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
 import {Education} from "../../../../ts/model/consumer/school/Education.ts";
-import {PathEnum} from "../../../../ts/router/path-enum.ts";
+import {PathEnum} from "../../../../ts/router";
 
 const bottomActiveName = ref<string>("主页");
 const {width, height} = useWindowSize();
@@ -136,7 +132,7 @@ const widthToHeightRate = ref<number>(
 watch([width, height], () => {
   widthToHeightRate.value = Math.max(width.value / height.value, 9 / 16);
 });
-let mainUserIds = [1, 2, 3, 4];
+let mainUserIds: number[] = [];
 const userMainInfos = ref<UserMainInfo[]>([]);
 const router = useRouter();
 const onClickEnter = (userId: number | undefined) => {
@@ -148,7 +144,7 @@ const userIdToRecommendUserId = () => {
   const config = {
     ...API_BASIC_INFO.userIdToRecommendUserId,
   };
-  AJAX.request<number[]>(config).then((res) => {
+  seenAxios<R<number[]>>(config).then(res => res.data).then((res) => {
     mainUserIds = res.data;
     userIdToUserMainInfo();
   });
