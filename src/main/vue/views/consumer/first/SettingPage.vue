@@ -114,7 +114,7 @@
   </van-row>
 </template>
 <script lang="ts" setup>
-import type {ShareSheetOption} from "vant";
+import {type ShareSheetOption, showDialog} from "vant";
 import {Cell as VanCell, CellGroup as VanCellGroup, showImagePreview, showToast,} from "vant";
 import {onMounted, ref, watch} from "vue";
 import {useRouter} from "vue-router";
@@ -208,14 +208,21 @@ const options = [
 ];
 
 const onSelect = (option: ShareSheetOption) => {
-  let href;
+  let href: string;
   switch (option.name) {
     case "复制链接":
-      href = document.location.href;
       href = document.location.origin;
-      console.log("href=" + href);
-      NavigatorUtil.clipboardToWriteText(href);
-      showToast({message: `链接是${href}`});
+      NavigatorUtil.clipboardToWriteText(href).then(b => {
+        if (!b) {
+          showDialog({
+            title: '选中链接后复制',
+            message: href,
+            theme: 'round-button',
+          }).then(() => {
+            // on close
+          });
+        }
+      });
       showShare.value = false;
       break;
     default:

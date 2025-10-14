@@ -12,7 +12,7 @@ export const API_BASIC_INFO = {
         method: "post",
     },
     userIdToRecommendUserId: {
-        url: "/rest-v1/zone/tag/user-id-to-recommend-user-id",
+        url: "/seen/rest-v1/zone/tag/user-id-to-recommend-user-id",
         method: "post",
     },
     userIdToPrimaryPhotoId: {
