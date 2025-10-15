@@ -133,7 +133,7 @@ class PhotoService {
     }
     /**
      * 根据照片ID获取照片URL,压缩
-     * @param photoId
+     * @param photoId   照片ID
      */
     photoIdToPhotoUrlByCompress = (photoId: number): string => {
         if (!photoId) {
@@ -141,6 +141,18 @@ class PhotoService {
         }
 
         return API_PHOTO.photoIdToResourcesByCompress.url + "?photoId=" + photoId + "&" + envService.getClientTokenName() + "=" + envService.getClientToken();
+    }
+    /**
+     * 根据页面URL获取二维码的URL
+     * @param originUrl 页面URL
+     * @return 二维码的URL
+     */
+    originUrlToStreamToUrl = (originUrl: string): string => {
+        if (!originUrl) {
+            return ''
+        }
+
+        return API_PHOTO.originUrlToStream.url + "?originUrl=" + originUrl + "&" + envService.getClientTokenName() + "=" + envService.getClientToken();
     }
 }
 

@@ -19,4 +19,8 @@ export const API_PHOTO = {
         url: "/rest-v1/user/self-info/save-main-photo",
         method: "post",
     },
+    originUrlToStream: {
+        url: "/seen/rest-v1/qr/qr-share/origin-url-to-stream",
+        method: "get",
+    }
 };

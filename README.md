@@ -86,7 +86,7 @@ npm version patch
 ```
 
 ```shell
-$$Env:SEEN_VERSION = "0.1.73"
+$$Env:SEEN_VERSION = "0.1.74"
 $$Env:SEEN_VERSION
 ```
 
@@ -95,7 +95,7 @@ git add .
 ```
 
 ```shell
-git commit -m "#73 调通新增用户"
+git commit -m "#74 增加应用二维码分享"
 ```
 
 ```shell
