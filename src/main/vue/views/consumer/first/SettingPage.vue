@@ -112,10 +112,21 @@
   <van-row :height="40" title="底部栏">
     <main-page-bottom :active-name="bottomActiveName"></main-page-bottom>
   </van-row>
+
+  <van-dialog :show="qrShare" @confirm="qrShare=false" title="发送二维码图片给朋友">
+    <div v-html="qrShareContent"></div>
+  </van-dialog>
 </template>
 <script lang="ts" setup>
-import {type ShareSheetOption, showDialog} from "vant";
-import {Cell as VanCell, CellGroup as VanCellGroup, showImagePreview, showToast,} from "vant";
+import {
+  Cell as VanCell,
+  CellGroup as VanCellGroup,
+  Dialog as VanDialog,
+  type ShareSheetOption,
+  showDialog,
+  showImagePreview,
+  showToast
+} from "vant";
 import {onMounted, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import MainPageBottom from "../../../components/MainPageBottom.vue";
@@ -135,6 +146,7 @@ import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import loginService from "../../../../ts/service/cosumer/sys/login";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
 import {NavigatorUtil} from "../../../../ts/context/navigator-util.ts";
+import {API_PHOTO} from "../../../../ts/http/photo-service-api.ts";
 
 const bottomActiveName = ref<string>("设置");
 const router = useRouter();
@@ -206,7 +218,8 @@ const options = [
     {name: "小程序码", icon: "weapp-qrcode"},
   ],
 ];
-
+const qrShare = ref(false);
+const qrShareContent = ref('');
 const onSelect = (option: ShareSheetOption) => {
   let href: string;
   switch (option.name) {
@@ -224,6 +237,26 @@ const onSelect = (option: ShareSheetOption) => {
         }
       });
       showShare.value = false;
+      break;
+    case "二维码":
+      href = document.location.origin;
+      seenAxios<Blob>({
+        ...API_PHOTO.originUrlToStream,
+        params: {
+          originUrl: href,
+        },
+        responseType: "blob",
+      }).then((res: AxiosResponse<Blob>) => {
+        if (res.status === 204) {
+          let msg = "远端服务器图片丢失";
+          console.error(msg);
+        }
+        qrShare.value = true;
+        res.data.text().then(text => {
+          qrShareContent.value = text;
+        })
+        showShare.value = false;
+      });
       break;
     default:
       showToast(option.name + "的接口未对接");
