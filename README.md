@@ -75,8 +75,8 @@ npm run lint
 ```
 
 ```shell
-$$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\22.20.0\node.exe"
-$$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\22.20.0\npm.exe"
+$$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\24.12.0\node.exe"
+$$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\24.12.0\npm.exe"
 ```
 
 ### 新的开发
@@ -86,7 +86,11 @@ npm version patch
 ```
 
 ```shell
-$$Env:SEEN_VERSION = "0.1.74"
+npm run update-check
+```
+
+```shell
+$$Env:SEEN_VERSION = "0.1.76"
 $$Env:SEEN_VERSION
 ```
 
@@ -95,7 +99,7 @@ git add .
 ```
 
 ```shell
-git commit -m "#74 增加应用二维码分享"
+git commit -m "#76 依赖升级"
 ```
 
 ```shell

@@ -35,7 +35,6 @@
             <van-col span="24">
               <van-count-down
                   v-show="false"
-                  ref="countDown"
                   :auto-start="true"
                   :time="time"
                   format="s"
@@ -77,7 +76,6 @@ const goTo = () => {
 
 const time = ref<number>(3000);
 
-const countDown = ref(null);
 
 const onFinish = () => {
   return goTo();
