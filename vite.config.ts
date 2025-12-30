@@ -7,7 +7,7 @@ import Pages from 'vite-plugin-pages';
 export default defineConfig({
     base: "/",
     build: {
-        rollupOptions: {
+        rolldownOptions: {
             input: {
                 main: "index.html",
                 test: "test/index.html",
