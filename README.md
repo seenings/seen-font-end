@@ -75,8 +75,7 @@ npm run lint
 ```
 
 ```shell
-$$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\24.12.0\node.exe"
-$$Env:PATH+=";~\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\24.12.0\npm.exe"
+$$env:PATH+=";"+$env:USERPROFILE+"\AppData\Roaming\JetBrains\IntelliJIdea2025.3\node\versions\24.12.0\"
 ```
 
 ### 新的开发
@@ -90,8 +89,8 @@ npm run update-check
 ```
 
 ```shell
-$$Env:SEEN_VERSION = "0.1.78"
-$$Env:SEEN_VERSION
+$$env:SEEN_VERSION = "0.1.79"
+$$env:SEEN_VERSION
 ```
 
 ```shell
@@ -99,17 +98,42 @@ git add .
 ```
 
 ```shell
-git commit -m "#78 依赖升级"
+git commit -m "#79 发布到npm中心和构建"
 ```
 
 ```shell
-git tag -a v$Env:SEEN_VERSION -m "发布版本$Env:SEEN_VERSION"
+git tag -a v$env:SEEN_VERSION -m "发布版本$env:SEEN_VERSION"
 ```
 
 ```shell
-git push origin v$Env:SEEN_VERSION
+git push origin v$env:SEEN_VERSION
 ```
 
 ```shell
 git push origin dev_chixh
+```
+
+### 发布
+
+```shell
+npm publish
+```
+
+## 构建
+
+```shell
+npm pack seen-font-end
+```
+
+```shell
+tar -zxf seen-font-end-$env:SEEN_VERSION.tgz
+```
+
+```shell
+cd package
+npm install
+```
+
+```shell
+npm run build
 ```

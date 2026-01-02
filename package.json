@@ -1,8 +1,7 @@
 {
   "name": "seen-font-end",
-  "version": "0.1.78",
+  "version": "0.1.79",
   "type": "module",
-  "private": true,
   "author": {
     "name": "songchi tech ltd.",
     "url": "https://seenings.github.io/seen-font-end/"
