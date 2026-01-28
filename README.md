@@ -89,16 +89,15 @@ npm run update-check
 ```
 
 ```shell
-$$env:SEEN_VERSION = "0.1.79"
+$$env:SEEN_VERSION = "0.1.80"
 $$env:SEEN_VERSION
 ```
 
 ```shell
 git add .
 ```
-
 ```shell
-git commit -m "#79 发布到npm中心和构建"
+git commit -m "#80 版本更新"
 ```
 
 ```shell
