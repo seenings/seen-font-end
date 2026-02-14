@@ -89,7 +89,7 @@ npm run update-check
 ```
 
 ```shell
-$$env:SEEN_VERSION = "0.1.82"
+$$env:SEEN_VERSION = "0.1.83"
 $$env:SEEN_VERSION
 ```
 
@@ -98,7 +98,7 @@ git add .
 ```
 
 ```shell
-git commit -m "#82 版本更新"
+git commit -m "#83 版本更新"
 ```
 
 ```shell
