@@ -101,9 +101,7 @@
       </van-row>
     </template>
   </van-skeleton>
-  <van-row :height="40" title="底部栏">
-    <main-page-bottom :active-name="bottomActiveName"></main-page-bottom>
-  </van-row>
+  <main-page-bottom :height="40" title="底部栏" :active-name="bottomActiveName"></main-page-bottom>
 </template>
 
 <script lang="ts" setup>

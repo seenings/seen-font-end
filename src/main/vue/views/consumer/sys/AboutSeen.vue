@@ -53,7 +53,7 @@ import {ref} from "vue";
 import GoBack from "../../../components/GoBack.vue";
 import {envService} from "../../../../ts/config/sys/env";
 
-import welcomeImg from "../../../../../../public/img/welcome.jpeg";
+import welcomeImg from "/img/welcome.jpeg?url";
 
 import packageConfig from "../../../../../../package.json"
 
