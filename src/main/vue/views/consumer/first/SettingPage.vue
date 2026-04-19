@@ -30,9 +30,9 @@
           alt="welcome"
           fit="cover"
           height="4rem"
-          src="./img/welcome.jpeg"
+          src="/img/welcome.jpeg?url"
           width="4rem"
-          @click="imagePreview(['/img/welcome.jpeg'], 0)"
+          @click="imagePreview(['/img/welcome.jpeg?url'], 0)"
       />
     </van-col>
     <van-col class="seen-left" span="8">
@@ -109,10 +109,7 @@
       title="立即分享给好友"
       @select="onSelect"
   />
-  <van-row :height="40" title="底部栏">
-    <main-page-bottom :active-name="bottomActiveName"></main-page-bottom>
-  </van-row>
-
+  <main-page-bottom :height="40" title="底部栏" :active-name="bottomActiveName"></main-page-bottom>
   <van-dialog :show="qrShare" @confirm="qrShare=false" title="发送二维码图片给朋友">
     <div v-html="qrShareContent"></div>
   </van-dialog>

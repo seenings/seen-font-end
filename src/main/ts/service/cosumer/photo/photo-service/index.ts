@@ -28,6 +28,9 @@ class PhotoService {
                 return photoContent;
             })
             .catch(() =>*/ {
+        if(photoId==null){
+            return new Promise(()=>null)
+        }
         return seenAxios<Blob>({
             ...API_PHOTO.photoIdToResourcesByCompress,
             params: {
