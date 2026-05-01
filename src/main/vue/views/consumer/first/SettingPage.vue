@@ -210,19 +210,32 @@ const options = [
   ],
   [
     {name: "复制链接", icon: "link"},
-    {name: "分享海报", icon: "poster"},
+    //{name: "分享海报", icon: "poster"},
     {name: "二维码", icon: "qrcode"},
-    {name: "小程序码", icon: "weapp-qrcode"},
+    //{name: "小程序码", icon: "weapp-qrcode"},
   ],
 ];
 const qrShare = ref(false);
 const qrShareContent = ref('');
+const copyUrl = (url) => {
+  const text = url;
+  // 创建临时textarea
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+}
 const onSelect = (option: ShareSheetOption) => {
   let href: string;
   switch (option.name) {
     case "复制链接":
       href = document.location.origin;
-      NavigatorUtil.clipboardToWriteText(href).then(b => {
+      copyUrl(href);
+      /* NavigatorUtil.clipboardToWriteText(href).then(b => {
         if (!b) {
           showDialog({
             title: '选中链接后复制',
@@ -232,7 +245,7 @@ const onSelect = (option: ShareSheetOption) => {
             // on close
           });
         }
-      });
+      });*/
       showShare.value = false;
       break;
     case "二维码":
