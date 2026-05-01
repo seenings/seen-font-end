@@ -85,12 +85,11 @@ npm version patch
 ```
 
 ```shell
-npm run update-check
+$$Env:SEEN_VERSION = (Get-Content "./version.txt" -Raw).Trim()
 ```
 
 ```shell
-$$env:SEEN_VERSION = "0.1.85"
-$$env:SEEN_VERSION
+echo "已设置版本：$Env:SEEN_VERSION"
 ```
 
 ```shell
@@ -98,7 +97,7 @@ git add .
 ```
 
 ```shell
-git commit -m "#85 版本更新"
+git commit -m "#86 修复展示格式错误"
 ```
 
 ```shell

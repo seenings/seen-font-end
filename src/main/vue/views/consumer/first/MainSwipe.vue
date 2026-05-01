@@ -1,5 +1,4 @@
 <template>
-  <seen-blank-row :height="60"></seen-blank-row>
   <van-skeleton :loading="loadingByUserMainInfo">
     <template #template>
       <van-skeleton-image :image-size="bigHeadHeight * widthToHeightRate"/>
