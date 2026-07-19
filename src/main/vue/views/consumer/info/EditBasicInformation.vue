@@ -856,7 +856,7 @@ const onClickMaritalStatusEdit = () => {
 };
 const onClickMaritalStatusOk = () => {
   showPicker.maritalStatus = false;
-  if (editBasicInformation.value.maritalStatus[0]) {
+  if (editBasicInformation.value.maritalStatus[0] !== undefined) {
     basicInformation.value.maritalStatus =
         editBasicInformation.value.maritalStatus[0];
   }

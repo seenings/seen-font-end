@@ -58,8 +58,7 @@ npm run test:unit
 npm run test:e2e:dev
 ```
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+This runs the end-to-end tests against the Vite development server. It is much faster than the production build.
 
 But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
 
@@ -85,19 +84,19 @@ npm version patch
 ```
 
 ```shell
-$$Env:SEEN_VERSION = (Get-Content "./version.txt" -Raw).Trim()
+Get-Content D:\Users\CXH\data\secret\.env.secret.txt | ForEach-Object {$l=$_.Trim();if($l -and !$l.StartsWith("#")){$i=$l.IndexOf('=');$k=$l.Substring(0,$i).Trim();$v=$l.Substring($i+1).Trim();[Environment]::SetEnvironmentVariable($k,$v,"Process")}}
 ```
 
 ```shell
-echo "已设置版本：$Env:SEEN_VERSION"
+echo "SEEN_VERSION=$env:SEEN_VERSION";
 ```
 
 ```shell
-git add .
+cd ~\IdeaProjects\seenings\seen-font-end
 ```
 
 ```shell
-git commit -m "#86 修复展示格式错误"
+git add . ; git commit -m "#91 修复输入格式错误，升级版本"
 ```
 
 ```shell
@@ -105,14 +104,14 @@ git tag -a v$env:SEEN_VERSION -m "发布版本$env:SEEN_VERSION"
 ```
 
 ```shell
-git push origin v$env:SEEN_VERSION
-```
-
-```shell
-git push origin dev_chixh
+git push origin v$env:SEEN_VERSION ; git push origin dev_chixh
 ```
 
 ### 发布
+
+```shell
+npm login
+```
 
 ```shell
 npm publish

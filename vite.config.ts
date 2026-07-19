@@ -30,7 +30,7 @@ export default defineConfig({
         port: 8101,
         proxy: {
             "/seen": {
-                target: "http://[::1]:8082",
+                target: "http://[::1]:9082",
             },
         }
     },
