@@ -73,14 +73,18 @@ npm run test:e2e
 npm run lint
 ```
 
-```shell
-$$env:PATH+=";"+$env:USERPROFILE+"\AppData\Roaming\JetBrains\IntelliJIdea2026.1\node\versions\24.13.0\"
-```
-
 ### 新的开发
 
 ```shell
 npm version patch
+```
+
+```shell
+$$env:PATH+=";"+$env:USERPROFILE+"\AppData\Roaming\JetBrains\IntelliJIdea2026.2\node\versions\24.16.0\"
+```
+
+```shell
+edit  D:\Users\CXH\data\secret\.env.secret.txt
 ```
 
 ```shell
@@ -96,7 +100,7 @@ cd ~\IdeaProjects\seenings\seen-font-end
 ```
 
 ```shell
-git add . ; git commit -m "#91 修复输入格式错误，升级版本"
+git add . ; git commit -m "#92 使用node24.16.0"
 ```
 
 ```shell
