@@ -100,11 +100,11 @@ cd ~\IdeaProjects\seenings\seen-font-end
 ```
 
 ```shell
-git add . ; git commit -m "#92 使用node24.16.0"
+git add . ; git commit -m "#93 使用node24.16.0"
 ```
 
 ```shell
-git tag -a v$env:SEEN_VERSION -m "发布版本$env:SEEN_VERSION"
+git pull origin main --rebase ; git tag -a v$env:SEEN_VERSION -m "发布版本$env:SEEN_VERSION"
 ```
 
 ```shell
