@@ -100,7 +100,7 @@ cd ~\IdeaProjects\seenings\seen-font-end
 ```
 
 ```shell
-git add . ; git commit -m "#92 使用node24.16.0"
+git add . ; git commit -m "#93 ts版本降级"
 ```
 
 ```shell

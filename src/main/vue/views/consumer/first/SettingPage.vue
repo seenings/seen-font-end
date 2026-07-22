@@ -120,7 +120,6 @@ import {
   CellGroup as VanCellGroup,
   Dialog as VanDialog,
   type ShareSheetOption,
-  showDialog,
   showImagePreview,
   showToast
 } from "vant";
@@ -142,7 +141,6 @@ import {StatusCode} from "../../../../ts/model/sys/api-result.ts";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import loginService from "../../../../ts/service/cosumer/sys/login";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
-import {NavigatorUtil} from "../../../../ts/context/navigator-util.ts";
 import {API_PHOTO} from "../../../../ts/http/photo-service-api.ts";
 
 const bottomActiveName = ref<string>("设置");
@@ -217,7 +215,7 @@ const options = [
 ];
 const qrShare = ref(false);
 const qrShareContent = ref('');
-const copyUrl = (url) => {
+const copyUrl = (url: string) => {
   const text = url;
   // 创建临时textarea
   const textarea = document.createElement('textarea');
@@ -235,17 +233,6 @@ const onSelect = (option: ShareSheetOption) => {
     case "复制链接":
       href = document.location.origin;
       copyUrl(href);
-      /* NavigatorUtil.clipboardToWriteText(href).then(b => {
-        if (!b) {
-          showDialog({
-            title: '选中链接后复制',
-            message: href,
-            theme: 'round-button',
-          }).then(() => {
-            // on close
-          });
-        }
-      });*/
       showShare.value = false;
       break;
     case "二维码":
