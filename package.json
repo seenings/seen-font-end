@@ -1,6 +1,6 @@
 {
   "name": "seen-font-end",
-  "version": "0.1.95",
+  "version": "0.1.96",
   "type": "module",
   "author": {
     "name": "songchi tech ltd.",
@@ -21,16 +21,16 @@
     "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.9.1",
     "axios": "^1.19.0",
-    "dayjs": "^1.11.20",
-    "enum-plus": "^3.1.8",
-    "pinia": "^4.0.2",
+    "dayjs": "^1.11.23",
+    "enum-plus": "^3.3.0",
+    "pinia": "^4.0.3",
     "typescript": "~6.0.2",
     "vant": "^4.9.24",
-    "vite": "^8.2.0",
+    "vite": "^8.2.2",
     "vite-plugin-pages": "^0.33.3",
-    "vitest": "^4.1.10",
+    "vitest": "^4.1.11",
     "vue-router": "^5.0.6",
     "vue-timer-hook": "^1.0.86",
-    "vue-tsc": "^3.3.9"
+    "vue-tsc": "^3.3.11"
   }
 }

@@ -33,7 +33,7 @@ npm version patch
 
 ```shell
 # 提交代码变更
-git add . ; git commit -m "#95 升级依赖包";
+git add . ; git commit -m "更新全国高等学校名单 resolve #41";
 # 拉取主线代码并变基，创建版本Tag
 git pull origin main --rebase ; git tag -a v$env:SEEN_VERSION -m "发布版本$env:SEEN_VERSION";
 # 推送标签与开发分支
