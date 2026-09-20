@@ -1,6 +1,6 @@
 {
   "name": "seen-font-end",
-  "version": "0.1.99",
+  "version": "0.1.100",
   "type": "module",
   "author": {
     "name": "songchi tech ltd.",
@@ -16,9 +16,9 @@
     "install": "npm install -D vitest"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.7",
+    "@vitejs/plugin-vue": "^6.0.9",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
-    "@vue/test-utils": "^2.5.0",
+    "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
     "axios": "^1.20.0",
     "dayjs": "^1.11.23",
@@ -26,7 +26,7 @@
     "pinia": "^4.0.3",
     "vant": "^4.10.2",
     "vite-plugin-pages": "^0.33.3",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.1",
     "vue-router": "^5.3.1",
     "vue-timer-hook": "^1.0.86"
   }
