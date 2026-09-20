@@ -6,13 +6,10 @@
 
 ```shell
 Get-Content D:\Users\CXH\data\secret\.env.secret.txt | ForEach-Object {$l=$_.Trim();if($l -and !$l.StartsWith("#")){$i=$l.IndexOf('=');$k=$l.Substring(0,$i).Trim();$v=$l.Substring($i+1).Trim();[Environment]::SetEnvironmentVariable($k,$v,"Process")}} ; 
-echo "SEEN_VERSION=$env:SEEN_VERSION";
-```
-
-```shell
 ; $env:PATH+=";"+$env:USERPROFILE+"\AppData\Roaming\JetBrains\IntelliJIdea2026.2\node\versions\24.18.1\" ;
 # 校验npm版本
 npm -v;
+echo "SEEN_VERSION=$env:SEEN_VERSION";
 ```
 
 ### 2. 切换项目目录
@@ -33,7 +30,7 @@ npm version patch
 
 ```shell
 # 提交代码变更
-git add . ; git commit -m "系统聊天时区偏移8小时 #74";
+git add . ; git commit -m "更新版本 #75";
 # 拉取主线代码并变基，创建版本Tag
 git pull origin main --rebase ; git tag -a v$env:SEEN_VERSION -m "发布版本$env:SEEN_VERSION";
 # 推送标签与开发分支
