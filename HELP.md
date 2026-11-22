@@ -30,7 +30,8 @@ npm version patch
 
 ```shell
 # 提交代码变更
-git add . ; git commit -m "更新版本 #76";
+git add . ; 
+git commit -m "修复聊天实时对话 #78";
 # 拉取主线代码并变基，创建版本Tag
 git pull origin main --rebase ; git tag -a v$env:SEEN_VERSION -m "发布版本$env:SEEN_VERSION";
 # 推送标签与开发分支

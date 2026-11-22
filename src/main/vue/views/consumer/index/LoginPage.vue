@@ -78,7 +78,7 @@ import {
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
-import {AJAX, ENV} from "../../../../ts/config";
+import {AJAX} from "../../../../ts/config";
 import {API_LOGIN} from "../../../../ts/http/login-service-api.ts";
 import {API_PUBLIC} from "../../../../ts/http/public-service-api.ts";
 import seenAxios from "../../../../ts/http/seen-axios.ts";
@@ -86,6 +86,7 @@ import type {BasicInfo} from "../../../../ts/model/consumer/user-info/BasicInfo.
 import type {R} from "../../../../ts/model/sys/api-result.ts";
 import {StatusCode} from "../../../../ts/model/sys/api-result.ts";
 import {PathEnum, SeenRouterUtils} from "../../../../ts/router";
+import {envService} from "../../../../ts/config/sys/env";
 
 const {height} = useWindowSize();
 
@@ -93,11 +94,11 @@ const router = useRouter();
 const countDown = ref();
 const data = ref({
   time: 60000, //60秒验证
-  smsCode: !ENV.isProd() ? "123456" : "",
-  phone: ENV.isLocal() ? "15521200861" : "",
+  smsCode: !envService.isProd() ? "123456" : "",
+  phone: envService.isLocal() ? "15521200861" : "",
   smsId: "",
   sendCodeBefore: true,
-  smsCodeDesc: ENV.isLocal() ? "输入123456" : "请输入短信验证码",
+  smsCodeDesc: envService.isLocal() ? "输入123456" : "请输入短信验证码",
 });
 const onFinish = () => {
   showToast("倒计时结束");
@@ -118,9 +119,9 @@ const login = () => {
   }).then((res: AxiosResponse<R<number>>) => {
     if ((res.data.code) === StatusCode.SUCCESS) {
       // 请求成功后就我们的数据从response取出并使返回的promise实例的状态变为成功的
-      const token: string = res.headers[ENV.getClientTokenName()];
+      const token: string = res.headers[envService.getClientTokenName()];
       if (token) {
-        ENV.setClientToken(token);
+        envService.setClientToken(token);
       }
       return res.data.data;
     }
