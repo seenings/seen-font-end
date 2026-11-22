@@ -73,7 +73,11 @@
             <van-col :span="2">
               <van-icon name="birthday-cake-o"/>
             </van-col>
-            <van-col :span="8" style="text-align: left">
+            <van-col
+                :span="8"
+                style="text-align: left"
+                @click="onClickEditIncompleteInfo"
+            >
               {{
                 userIntroduceInfo.birthYear +
                 "年"
@@ -85,13 +89,20 @@
                 }}
               </label>
               <label v-else class="seen-info-color">
-                请补充
+                {{ selfEdit ? "请补充" : "对方未填写" }}
               </label>
             </van-col>
-            <van-col :span="2">
+            <van-col
+                :span="2"
+                @click="onClickEditIncompleteInfo"
+            >
               <van-icon name="manager-o"/>
             </van-col>
-            <van-col :span="12" style="text-align: left">
+            <van-col
+                :span="12"
+                style="text-align: left"
+                @click="onClickEditIncompleteInfo"
+            >
               <label v-if="userIntroduceInfo.statureCm">
                 {{
                   userIntroduceInfo.statureCm +
@@ -102,15 +113,22 @@
                 }}
               </label>
               <label v-else class="seen-info-color">
-                请补充
+                {{ selfEdit ? "请补充" : "对方未填写" }}
               </label>
             </van-col>
           </van-row>
           <van-row title="所在地">
-            <van-col :span="2">
+            <van-col
+                :span="2"
+                @click="onClickEditIncompleteInfo"
+            >
               <van-icon name="wap-home-o"/>
             </van-col>
-            <van-col :span="22" style="text-align: left">
+            <van-col
+                :span="22"
+                style="text-align: left"
+                @click="onClickEditIncompleteInfo"
+            >
               <label v-if="userIntroduceInfo.currentResidenceCityName">
                 {{
                   "现居" +
@@ -122,15 +140,22 @@
                 }}
               </label>
               <label v-else class="seen-info-color">
-                请补充
+                {{ selfEdit ? "请补充" : "对方未填写" }}
               </label>
             </van-col>
           </van-row>
           <van-row title="学历">
-            <van-col :span="2">
+            <van-col
+                :span="2"
+                @click="onClickEditIncompleteInfo"
+            >
               <van-icon name="desktop-o"/>
             </van-col>
-            <van-col :span="22" style="text-align: left">
+            <van-col
+                :span="22"
+                style="text-align: left"
+                @click="onClickEditIncompleteInfo"
+            >
               {{ Education.key(userIntroduceInfo.educationId) }}
               <label v-if="userIntroduceInfo.schoolName">
                 {{
@@ -138,15 +163,22 @@
                 }}
               </label>
               <label v-else class="seen-info-color">
-                请补充
+                {{ selfEdit ? "请补充" : "对方未填写" }}
               </label>
             </van-col>
           </van-row>
           <van-row title="工作">
-            <van-col :span="2">
+            <van-col
+                :span="2"
+                @click="onClickEditIncompleteInfo"
+            >
               <van-icon name="manager-o"/>
             </van-col>
-            <van-col :span="22" style="text-align: left">
+            <van-col
+                :span="22"
+                style="text-align: left"
+                @click="onClickEditIncompleteInfo"
+            >
               <label v-if="userIntroduceInfo.workPositionName">
                 {{
                   userIntroduceInfo.workPositionName +
@@ -155,7 +187,7 @@
                 }}
               </label>
               <label v-else class="seen-info-color">
-                请补充
+                {{ selfEdit ? "请补充" : "对方未填写" }}
               </label>
             </van-col>
           </van-row>
@@ -460,15 +492,6 @@
       <van-col :span="6" style="opacity: 0">空白列</van-col>
     </van-row>
     <seen-blank-row/>
-    <van-row>
-      <van-col :span="6" style="opacity: 0">空白列</van-col>
-      <van-col :span="12">
-        <van-button type="primary" @click="onClickBuy"
-        >去购买玫瑰花
-        </van-button>
-      </van-col>
-      <van-col :span="6" style="opacity: 0">空白列</van-col>
-    </van-row>
     <seen-blank-row/>
     <van-row>
       <van-col :span="6" style="opacity: 0">空白列</van-col>
@@ -490,7 +513,6 @@ import SeenBlankRow from "../../../components/SeenBlankRow.vue";
 
 import {showImagePreview, showNotify, showToast} from "vant";
 import {useRoute, useRouter} from "vue-router";
-import {AJAX} from "../../../../ts/config";
 import {API_BASIC_INFO} from "../../../../ts/http/basic-info-service-api.ts";
 import {API_COIN} from "../../../../ts/http/coin-service-api.ts";
 import {API_FRIEND} from "../../../../ts/http/friend-service-api.ts";
@@ -500,10 +522,10 @@ import seenAxios from "../../../../ts/http/seen-axios.ts";
 import type {PhotoContent} from "../../../../ts/model/consumer/photo/file.ts";
 import {Education} from "../../../../ts/model/consumer/school/Education.ts";
 import type {UserIntroduceInfo} from "../../../../ts/model/consumer/user-info/BasicInfo.ts";
-import type {PersonIntroduce} from "../../../../ts/model/consumer/user-info/UserInfo.ts";
+import type {PersonIntroduce, UserInfo} from "../../../../ts/model/consumer/user-info/UserInfo.ts";
 import type {R} from "../../../../ts/model/sys/api-result.ts";
 import {StatusCode} from "../../../../ts/model/sys/api-result.ts";
-import {router, SeenRouterUtils} from "../../../../ts/router";
+import {SeenRouterUtils} from "../../../../ts/router";
 import photoService from "../../../../ts/service/cosumer/photo/photo-service";
 import PhotoUtil from "../../../../ts/util/consumer/photo/photo-util.ts";
 import {PathEnum} from "../../../../ts/router";
@@ -513,7 +535,7 @@ const primaryColor = ref("#437de8");
 const personIntroduceMain = ref<Element>();
 const route = useRoute();
 //对方的id
-const pageUserId: number = Number(route.query.pageUserId + "");
+let pageUserId: number = Number(route.query.pageUserId + "");
 if (pageUserId == null) {
   console.error("页面访问异常");
   showToast("页面访问异常");
@@ -526,15 +548,15 @@ const checkSelf = () => {
       pageUserId: pageUserId,
     },
   };
-  seenAxios<R<boolean>>(config).then((res) => {
+  return seenAxios<R<boolean>>(config).then((res) => {
     if ((res.data.code) === StatusCode.SUCCESS) {
       selfEdit.value = res.data.data;
     }
   });
 };
-const userRouter = useRouter();
+const router = useRouter();
 const onClickIntroduceEdit = (introduceTypeId: number) => {
-  SeenRouterUtils.toPage(userRouter, PathEnum.EditPersonIntroduce, {
+  SeenRouterUtils.toPage(router, PathEnum.EditPersonIntroduce, {
     introduceTypeIndex: introduceTypeId,
   });
 };
@@ -613,10 +635,10 @@ const checkEnough = () => {
   const config = {
     ...API_COIN.checkEnough,
   };
-  AJAX.request<boolean>(config).then((res) => {
-    if ((res.code) === StatusCode.SUCCESS) {
-      showCoinEnough.value = res.data;
-      showCoinNotEnough.value = !res.data;
+  seenAxios<R<boolean>>(config).then((res) => {
+    if ((res.data.code) === StatusCode.SUCCESS) {
+      showCoinEnough.value = res.data.data;
+      showCoinNotEnough.value = !res.data.data;
     }
   });
 };
@@ -688,7 +710,7 @@ interface AuthInfo {
 }
 
 const onClickUploadPhoto = () => {
-  SeenRouterUtils.toPage(userRouter, PathEnum.EditUserPhoto, {});
+  SeenRouterUtils.toPage(router, PathEnum.EditUserPhoto, {});
 };
 const authInfo = ref<AuthInfo>({
   education: false,
@@ -881,15 +903,23 @@ const userIdToUserIntroduceInfo = () => {
   });
 };
 const onClickDoTask = () => {
-  showToast({message: "未实现"});
-  //TODO
-};
-const onClickBuy = () => {
-  showToast({message: "未实现"});
-  //TODO
+  seenAxios<R<UserInfo>>(API_BASIC_INFO.selfUserInfo).then((res) => {
+    if (res.data.code !== StatusCode.SUCCESS || !res.data.data?.userId) {
+      showToast("获取个人信息失败");
+      return;
+    }
+    showCoinNotEnough.value = false;
+    pageUserId = res.data.data.userId;
+    return onRefresh();
+  });
 };
 const onClickEditInfo = () => {
-  SeenRouterUtils.toPage(router, PathEnum.EditBasicInformation, {});
+  return SeenRouterUtils.toPage(router, PathEnum.EditBasicInformation, {});
+};
+const onClickEditIncompleteInfo = () => {
+  if (selfEdit.value) {
+    onClickEditInfo();
+  }
 };
 const onClickEditTag = () => {
   SeenRouterUtils.toPage(router, PathEnum.EditTag, {});
@@ -938,14 +968,18 @@ watch(
     }
 );
 
-onMounted(() => {
+const onRefresh = () => {
   userIdToPrimaryPhotoId();
   userIdToUserIntroduceInfo();
   userIdToPersonIntroduce();
   userIdToTagName();
   destUserIdToThumb();
   destUserIdToFocus();
-  checkSelf();
+  return checkSelf();
+};
+
+onMounted(() => {
+  return onRefresh();
 });
 </script>
 

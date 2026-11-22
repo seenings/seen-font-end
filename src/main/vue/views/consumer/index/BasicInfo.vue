@@ -97,15 +97,14 @@
 import type {PickerOption} from "vant";
 import type {Numeric} from "vant/lib/utils";
 import {type Ref, ref} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
 import {API_BASIC_INFO} from "../../../../ts/http/basic-info-service-api.ts";
 import {Education} from "../../../../ts/model/consumer/school/Education.ts";
 import type {BasicInfo} from "../../../../ts/model/consumer/user-info/BasicInfo.ts";
 import {Sex} from "../../../../ts/model/consumer/user-info/Sex.ts";
-import type {R} from "../../../../ts/model/sys/api-result.ts";
-import {PathEnum, SeenRouterUtils, router} from "../../../../ts/router";
+import {type R, StatusCode} from "../../../../ts/model/sys/api-result.ts";
 import {SchoolUtils} from "../../../../ts/util/consumer/school/school-util.ts";
 import seenAxios from "../../../../ts/http/seen-axios.ts";
 
@@ -148,6 +147,7 @@ const changeGraduated = () => {
   isGraduated.value = !isGraduated.value;
 };
 const route = useRoute();
+const router = useRouter();
 const userId = ref(Number(route.query.userId));
 const onEnterClick = () => {
   const data: BasicInfo = {
@@ -157,17 +157,19 @@ const onEnterClick = () => {
     birthYear: birthYear.value,
     graduated: isGraduated.value,
   };
-  const config = {
+  return seenAxios<R<string>>({
     ...API_BASIC_INFO.saveBasicInfo,
     data: data,
-  };
-  return seenAxios<R<string>>(config).then((res) => {
+  }).then((res) => {
     return res.data;
   }).then((data) => {
-    if (data.code === 1) {
+    if (data.code === StatusCode.SUCCESS) {
       //进入首页
-      return SeenRouterUtils.toPage(router, PathEnum.MainSwipe, {
-        userId: userId.value,
+      return router.push({
+        path: '/consumer/first/MainSwipe',
+        query: {
+          userId: userId.value,
+        },
       });
     }
   });

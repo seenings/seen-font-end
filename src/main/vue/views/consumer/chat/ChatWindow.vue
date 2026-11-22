@@ -14,7 +14,7 @@
   </van-row>
   <van-row
       v-if="sortLocalChatMessages.length === 0"
-      :style="{ height: height - 100 + 'px' }"
+      :style="{ height: height - 100 - 46 -16 + 'px' }"
       style="opacity: 0"
       title="无聊天内容时"
   >
@@ -23,7 +23,7 @@
   <van-row v-else title="聊天记录列表">
     <van-col
         id="chatRecordList"
-        :style="{ height: height - 100 + 'px' }"
+        :style="{ height: height - 100 - 46 - 16 + 'px' }"
         span="24"
         style="overflow-y: scroll"
     >
@@ -149,11 +149,10 @@ import {computed, nextTick, onMounted, type Ref, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 import {useWindowSize} from "@vant/use";
-import type {UploaderFileListItem} from "vant";
+import {useNow} from "@vueuse/core";
+import {type UploaderFileListItem} from "vant";
 import {showDialog, showNotify, showToast} from "vant";
-import {useStopwatch} from "vue-timer-hook";
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
-
 import SeenOtherReceiverComp from "../../../components/SeenOtherReceiverComp.vue";
 import {API_BASIC_INFO} from "../../../../ts/http/basic-info-service-api.ts";
 import {API_CHAT} from "../../../../ts/http/chat-service-api.ts";
@@ -203,7 +202,7 @@ const historyIdToRemoteChatMessageMap = ref<Record<number, RemoteChatMessage>>(
     {}
 );
 //1 文本，2 图片，3 语音
-const valueType:Ref<number> = ref<ContentTypeValue>(ContentType.TEXT);
+const valueType: Ref<number> = ref<ContentTypeValue>(ContentType.TEXT);
 // 预先设置一个变量来存MediaRecorder实例
 let mediaRecorder: MediaRecorder;
 const audioFile = ref<File>();
@@ -212,6 +211,13 @@ let currentVoice: Voice = {
   url: "",
   blankText: "",
 };
+const recordingStartedAt = ref(0);
+const recordingNow = useNow();
+const recordingSeconds = computed(() =>
+    recordingStartedAt.value
+        ? Math.max(0, Math.floor((recordingNow.value.getTime() - recordingStartedAt.value) / 1000))
+        : 0
+);
 
 const recording = ref(false);
 const onOversize = () => {
@@ -243,7 +249,7 @@ const afterRead = (items: UploaderFileListItem | UploaderFileListItem[]) => {
   } else {
     files = [items];
   }
-  let file: UploaderFileListItem|undefined = files[0];
+  let file: UploaderFileListItem | undefined = files[0];
   let photoFile: File;
   if (!file || !file.file) {
     showToast("文件有问题");
@@ -298,10 +304,9 @@ const onVoiceStart = () => {
       .then((stream: MediaStream) => {
         let chunks: Blob[];
         mediaRecorder = new MediaRecorder(stream);
-        const watch = useStopwatch();
         // 录音开始事件监听（即调用 mediaRecorder.start()时会触发该事件）
         mediaRecorder.onstart = () => {
-          watch.start();
+          recordingStartedAt.value = Date.now();
           chunks = [];
           currentVoice = {
             id: 0,
@@ -315,18 +320,17 @@ const onVoiceStart = () => {
           console.log('耗时' + e.timeStamp)
         };
         mediaRecorder.onerror = () => {
-          watch.pause();
+          recordingStartedAt.value = 0;
         };
         // 录音结束事件监听，发生在mediaRecorder.stop()和 mediaRecorder.ondataavailable 调用后
         mediaRecorder.onstop = () => {
-          watch.pause();
           // 获取到录音的blob
           const blob: Blob = new Blob(chunks, {type: "audio/webm;codecs=opus"});
           //  将blob转换为file对象，名字可以自己改，一般用于需要将文件上传到后台的情况
           audioFile.value = new File([blob], "chat-record.webm");
           // 将blob转换为地址，一般用于页面上面的回显，这个url可以直接被 audio 标签使用
           const audioUrl = URL.createObjectURL(blob);
-          const seconds = watch.seconds.value;
+          const seconds = recordingSeconds.value;
           //2-10的空格
           let blankText = "  ";
           for (let i = 3; i < seconds && i < 10; i++) {
@@ -389,7 +393,7 @@ const localChatMessages = ref<LocalChatMessage[]>([]);
  */
 const sortLocalChatMessages = computed(() => {
   let data = localChatMessages.value;
-  return data.sort((a:LocalChatMessage, b:LocalChatMessage) => {
+  return data.sort((a: LocalChatMessage, b: LocalChatMessage) => {
     if (a.sendTime && b.sendTime) {
       return a.sendTime.getTime() - b.sendTime.getTime();
     } else {
@@ -755,7 +759,6 @@ const onClickRight = () => {
     pageUserId: pageUserId,
   });
 };
-
 const eventSourceByTwoChat = new EventSource(
     "/seen/sse-v1/chat/two-chat/receive" +
     "?" +
