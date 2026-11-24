@@ -508,7 +508,7 @@
 
 <script lang="ts" setup>
 import {useWindowSize} from "@vant/use";
-import {computed, onMounted, type Ref, ref, watch} from "vue";
+import {computed, type Ref, ref, watch} from "vue";
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
 
 import {showImagePreview, showNotify, showToast} from "vant";
@@ -535,17 +535,14 @@ const primaryColor = ref("#437de8");
 const personIntroduceMain = ref<Element>();
 const route = useRoute();
 //对方的id
-let pageUserId: number = Number(route.query.pageUserId + "");
-if (pageUserId == null) {
-  console.error("页面访问异常");
-  showToast("页面访问异常");
-}
+const pageUserId: Ref<number> = ref<number>(Number(route.query.pageUserId + ""));
+
 const selfEdit = ref(false);
 const checkSelf = () => {
   const config = {
     ...API_LOGIN.checkSelf,
     params: {
-      pageUserId: pageUserId,
+      pageUserId: pageUserId.value,
     },
   };
   return seenAxios<R<boolean>>(config).then((res) => {
@@ -649,7 +646,7 @@ const applyFriend = () => {
   const config = {
     ...API_FRIEND.applyFriend,
     params: {
-      appliedUserId: pageUserId,
+      appliedUserId: pageUserId.value,
     },
   };
   seenAxios<R<boolean>>(config).then((res) => {
@@ -710,7 +707,9 @@ interface AuthInfo {
 }
 
 const onClickUploadPhoto = () => {
-  SeenRouterUtils.toPage(router, PathEnum.EditUserPhoto, {});
+  return router.push({
+    path: `/${PathEnum.EditUserPhoto}`
+  })
 };
 const authInfo = ref<AuthInfo>({
   education: false,
@@ -721,83 +720,64 @@ const authInfo = ref<AuthInfo>({
 const personIntroduceData = ref<PersonIntroduce[]>([]);
 const photoIdToPhotoContentMap = ref<Record<number, PhotoContent>>({});
 const primayPhotoIds: Ref<number[]> = ref([]);
-watch(primayPhotoIds, (newVal) => {
-  let photoIds = newVal ? new Set(newVal) : [];
-  photoIds.forEach((photoId) => {
-    photoService.photoIdToResourcesByCompress(photoId).then((res) => {
-      if (!photoIdToPhotoContentMap.value[photoId] ||
-          photoIdToPhotoContentMap.value[photoId].imageUrl === "") {
-        photoIdToPhotoContentMap.value[photoId] = {...res};
-      }
-    });
-  });
-  photoIds.forEach((photoId) => {
-    let photoUrl = photoService.photoIdToPhotoUrl(photoId);
-    photoIdToPhotoContentMap.value[photoId] = {
-      file: null,
-      compressImageUrl: photoUrl,
-      imageUrl: photoUrl,
-      status: '下载成功'
-    }
-  });
-});
+
 const userIdToPrimaryPhotoId = () => {
   const config = {
     ...API_BASIC_INFO.userIdToPrimaryPhotoId,
-    data: [pageUserId],
+    data: [pageUserId.value],
   };
   return seenAxios<R<Record<number, number[]>>>(config).then((res) => {
-    primayPhotoIds.value = res.data.data[pageUserId]
-        ? res.data.data[pageUserId]
+    primayPhotoIds.value = res.data.data[pageUserId.value]
+        ? res.data.data[pageUserId.value]
         : [];
   });
 };
 const focusUser = () => {
   const config = {
     ...API_INTERACT_USER.focusUser,
-    data: [pageUserId],
+    data: [pageUserId.value],
   };
-  seenAxios<R<Record<number, boolean>>>(config).then((res) => {
-    if (res.data.data[pageUserId] === undefined) {
-      console.error(`用户信息不存在，用户ID${pageUserId}`)
+  return seenAxios<R<Record<number, boolean>>>(config).then((res) => {
+    if (res.data.data[pageUserId.value] === undefined) {
+      console.error(`用户信息不存在，用户ID${pageUserId.value}`)
       return;
     }
-    focus.value = res.data.data[pageUserId];
+    focus.value = res.data.data[pageUserId.value];
   });
 };
 const thumbUser = () => {
   const config = {
     ...API_INTERACT_USER.thumbUser,
-    data: [pageUserId],
+    data: [pageUserId.value],
   };
-  seenAxios<R<Record<number, boolean>>>(config).then((res) => {
-    if (res.data.data[pageUserId] === undefined) {
-      console.error(`用户信息不存在，用户ID${pageUserId}`)
+  return seenAxios<R<Record<number, boolean>>>(config).then((res) => {
+    if (res.data.data[pageUserId.value] === undefined) {
+      console.error(`用户信息不存在，用户ID${pageUserId.value}`)
       return;
     }
-    thumb.value = res.data.data[pageUserId];
+    thumb.value = res.data.data[pageUserId.value];
   });
 };
 const userIdToPersonIntroduce = () => {
   const config = {
     ...API_BASIC_INFO.userIdToPersonIntroduce,
-    data: [pageUserId],
+    data: [pageUserId.value],
   };
   seenAxios<R<Record<number, PersonIntroduce[]>>>(config).then((res) => {
-    if (res.data.data[pageUserId] === undefined) {
-      console.error(`用户信息不存在，用户ID${pageUserId}`)
+    if (res.data.data[pageUserId.value] === undefined) {
+      console.error(`用户信息不存在，用户ID${pageUserId.value}`)
       return;
     }
-    personIntroduceData.value = res.data.data[pageUserId];
+    personIntroduceData.value = res.data.data[pageUserId.value];
   });
 };
 const userIdToTagName = () => {
   const config = {
     ...API_BASIC_INFO.userIdToTagName,
-    data: [pageUserId],
+    data: [pageUserId.value],
   };
   seenAxios<R<Record<number, string[]>>>(config).then((res) => {
-    let data = res.data.data[pageUserId];
+    let data = res.data.data[pageUserId.value];
     tagNames.value = data ? data : [];
   });
 };
@@ -805,14 +785,14 @@ const thumb = ref<boolean>(false);
 const destUserIdToThumb = () => {
   const config = {
     ...API_BASIC_INFO.destUserIdToThumb,
-    data: [pageUserId],
+    data: [pageUserId.value],
   };
   seenAxios<R<Record<number, boolean>>>(config).then((res) => {
-    if (res.data.data[pageUserId] === undefined) {
-      console.error(`用户信息不存在，用户ID${pageUserId}`)
+    if (res.data.data[pageUserId.value] === undefined) {
+      console.error(`用户信息不存在，用户ID${pageUserId.value}`)
       return;
     }
-    thumb.value = res.data.data[pageUserId];
+    thumb.value = res.data.data[pageUserId.value];
   });
 };
 const focus = ref<boolean>(false);
@@ -822,11 +802,11 @@ const destUserIdToFocus = () => {
     data: [pageUserId],
   };
   seenAxios<R<Record<number, boolean>>>(config).then((res) => {
-    if (res.data.data[pageUserId] === undefined) {
-      console.error(`用户信息不存在，用户ID${pageUserId}`)
+    if (res.data.data[pageUserId.value] === undefined) {
+      console.error(`用户信息不存在，用户ID${pageUserId.value}`)
       return;
     }
-    focus.value = res.data.data[pageUserId];
+    focus.value = res.data.data[pageUserId.value];
     loading.value = false;
   });
 };
@@ -834,7 +814,7 @@ const userIntroduceInfo = ref<UserIntroduceInfo>({
   /**
    * 用户ID
    */
-  userId: pageUserId,
+  userId: pageUserId.value,
   /**
    * 用户认证
    */
@@ -895,11 +875,11 @@ const userIdToUserIntroduceInfo = () => {
     data: [pageUserId],
   };
   seenAxios<R<Record<number, UserIntroduceInfo>>>(config).then((res) => {
-    if (res.data.data[pageUserId] === undefined) {
-      console.error(`用户信息不存在，用户ID${pageUserId}`)
+    if (res.data.data[pageUserId.value] === undefined) {
+      console.error(`用户信息不存在，用户ID${pageUserId.value}`)
       return;
     }
-    userIntroduceInfo.value = res.data.data[pageUserId];
+    userIntroduceInfo.value = res.data.data[pageUserId.value];
   });
 };
 const onClickDoTask = () => {
@@ -909,8 +889,10 @@ const onClickDoTask = () => {
       return;
     }
     showCoinNotEnough.value = false;
-    pageUserId = res.data.data.userId;
-    return onRefresh();
+    return router.push({
+      path: `/${PathEnum.PersonIntroduce}`,
+      query: {pageUserId: res.data.data.userId},
+    });
   });
 };
 const onClickEditInfo = () => {
@@ -926,6 +908,47 @@ const onClickEditTag = () => {
 };
 const loading = ref(true);
 
+const onRefresh = () => {
+  userIdToPrimaryPhotoId();
+  userIdToUserIntroduceInfo();
+  userIdToPersonIntroduce();
+  userIdToTagName();
+  destUserIdToThumb();
+  destUserIdToFocus();
+  return checkSelf();
+};
+watch(
+    () => route.query.pageUserId,
+    (val) => {
+      pageUserId.value = Number(val + "");
+      if (pageUserId.value == null) {
+        console.error("页面访问异常");
+        showToast("页面访问异常");
+      }
+      onRefresh();
+    },
+    {immediate: true}
+)
+watch(primayPhotoIds, (newVal) => {
+  let photoIds = newVal ? new Set(newVal) : [];
+  photoIds.forEach((photoId) => {
+    photoService.photoIdToResourcesByCompress(photoId).then((res) => {
+      if (!photoIdToPhotoContentMap.value[photoId] ||
+          photoIdToPhotoContentMap.value[photoId].imageUrl === "") {
+        photoIdToPhotoContentMap.value[photoId] = {...res};
+      }
+    });
+  });
+  photoIds.forEach((photoId) => {
+    let photoUrl = photoService.photoIdToPhotoUrl(photoId);
+    photoIdToPhotoContentMap.value[photoId] = {
+      file: null,
+      compressImageUrl: photoUrl,
+      imageUrl: photoUrl,
+      status: '下载成功'
+    }
+  });
+});
 watch(
     () => personIntroduceData.value,
     (newVal) => {
@@ -968,19 +991,6 @@ watch(
     }
 );
 
-const onRefresh = () => {
-  userIdToPrimaryPhotoId();
-  userIdToUserIntroduceInfo();
-  userIdToPersonIntroduce();
-  userIdToTagName();
-  destUserIdToThumb();
-  destUserIdToFocus();
-  return checkSelf();
-};
-
-onMounted(() => {
-  return onRefresh();
-});
 </script>
 
 <style scoped></style>

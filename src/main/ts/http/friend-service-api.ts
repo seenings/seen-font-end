@@ -4,7 +4,7 @@ export const API_FRIEND = {
         method: "post",
     },
     reApply: {
-        url: "/rest-v1/user/friend/re-apply",
+        url: "/seen/rest-v1/user/friend/re-apply",
         method: "post",
     },
     look: {
@@ -20,7 +20,7 @@ export const API_FRIEND = {
         method: "post",
     },
     applyIdToSendApplyContent: {
-        url: "/rest-v1/user/friend/apply-id-to-send-apply-content",
+        url: "/seen/rest-v1/user/friend/apply-id-to-send-apply-content",
         method: "post",
     },
     applyIdToRecApplyContent: {

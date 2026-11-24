@@ -169,9 +169,13 @@ const voiceSpan = (min: number, actual: number, max: number): number => {
         </van-row>
       </van-col>
     </van-row>
+    <van-row v-else-if="text">
+      <van-col class="seen-back-access-color" span="24">
+        无法识别的消息类型
+      </van-col>
+    </van-row>
     <van-row v-else>
-      <van-col class="seen-back-access-color" span="24"
-      >无法识别的消息类型
+      <van-col class="seen-back-access-color" span="24">
       </van-col>
     </van-row>
   </van-col>
