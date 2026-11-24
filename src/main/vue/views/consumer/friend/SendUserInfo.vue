@@ -60,7 +60,7 @@
   </van-row>
   <van-divider/>
   <van-row title="动态" @click="onClickPersonIntroduce">
-    <van-col span="5"> 我的动态</van-col>
+    <van-col span="5">他/她的主页</van-col>
     <van-col span="16">
       <img
           v-for="(item, key) in secondaryPhotos.slice(
@@ -177,7 +177,6 @@ import {showNotify} from "vant";
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import SeenBlankRow from "../../../components/SeenBlankRow.vue";
-import {AJAX} from "../../../../ts/config";
 import {API_BASIC_INFO} from "../../../../ts/http/basic-info-service-api.ts";
 import {API_FRIEND} from "../../../../ts/http/friend-service-api.ts";
 import seenAxios from "../../../../ts/http/seen-axios.ts";
@@ -231,12 +230,12 @@ const reApply = () => {
       pageUserId: pageUserId,
     },
   };
-  AJAX.request<boolean>(config).then((res) => {
-    if (res.code === StatusCode.SUCCESS.valueOf()) {
-      if (res.data) {
+  seenAxios.request<R<boolean>>(config).then((res) => {
+    if (res.data.code === StatusCode.SUCCESS.valueOf()) {
+      if (res.data.data) {
         showNotify({type: "success", message: "发送消息成功"});
       } else {
-        showNotify({type: "danger", message: res.msg});
+        showNotify({type: "danger", message: res.data.msg});
       }
       router.go(0);
     }
@@ -259,10 +258,10 @@ const applyIdToSendApplyContent = () => {
     ...API_FRIEND.applyIdToSendApplyContent,
     data: [applyId],
   };
-  AJAX.request<Record<number, SendApplyContent>>(config).then((res) => {
-    if ((res.code) === StatusCode.SUCCESS) {
-      if (res.data[applyId])
-        applyContent.value = res.data[applyId];
+  seenAxios.request<R<Record<number, SendApplyContent>>>(config).then((res) => {
+    if ((res.data.code) === StatusCode.SUCCESS) {
+      if (res.data.data[applyId])
+        applyContent.value = res.data.data[applyId];
     }
   });
 };
@@ -310,8 +309,8 @@ const userIdToUserMainInfo = () => {
     ...API_BASIC_INFO.userIdToUserMainInfo,
     data: [pageUserId],
   }).then((res) => {
-    if(res.data.data[pageUserId])
-    userMainInfo.value = res.data.data[pageUserId];
+    if (res.data.data[pageUserId])
+      userMainInfo.value = res.data.data[pageUserId];
   });
 };
 
